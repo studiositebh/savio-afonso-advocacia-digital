@@ -19,20 +19,36 @@ const Sobre = () => {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            <div>
+            <div className="animate-fade-in">
               <img 
                 src="/lovable-uploads/7ea95670-77ae-4867-a1e2-952406df9e0d.png"
-                alt="Sávio Afonso de Oliveira"
+                alt="Dr. Sávio Afonso de Oliveira"
                 className="w-full h-96 object-cover rounded-lg shadow-lg"
               />
             </div>
-            <div>
-              <img 
-                src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
-                alt="Escritório Sávio Afonso"
-                className="w-full h-96 object-cover rounded-lg shadow-lg"
-              />
+            <div className="animate-fade-in">
+              <h2 className="text-3xl font-bold mb-6 text-gray-800">
+                Dr. Sávio Afonso de Oliveira
+              </h2>
+              <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                Fundador e sócio principal do escritório, com mais de 30 anos de experiência 
+                em Direito Empresarial. Reconhecido pela excelência técnica e visão estratégica 
+                no desenvolvimento de soluções jurídicas inovadoras.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Especialista em reestruturações societárias, planejamento tributário e 
+                operações de M&A, sempre focado em resultados que agreguem valor aos negócios 
+                de seus clientes.
+              </p>
             </div>
+          </div>
+          
+          <div className="text-center mb-12 animate-fade-in">
+            <img 
+              src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
+              alt="Escritório Sávio Afonso"
+              className="w-full max-w-4xl mx-auto h-96 object-cover rounded-lg shadow-lg"
+            />
           </div>
         </div>
       </section>
