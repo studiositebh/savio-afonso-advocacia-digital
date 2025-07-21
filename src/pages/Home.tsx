@@ -40,11 +40,11 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-cover bg-center" style={{
+      <section className="relative pt-32 pb-44 bg-cover bg-center" style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png')`
       }}>
-        <div className="container mx-auto px-4 relative">
-          <div className="max-w-3xl">
+        <div className="container mx-auto px-4 relative text-center">
+          <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-semibold text-white mb-4 leading-tight">
               Soluções Jurídicas Empresariais com Estratégia e Excelência
             </h1>
