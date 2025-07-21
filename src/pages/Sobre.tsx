@@ -23,7 +23,7 @@ const Sobre = () => {
               <img 
                 src="/lovable-uploads/7ea95670-77ae-4867-a1e2-952406df9e0d.png"
                 alt="Dr. Sávio Afonso de Oliveira"
-                className="w-full h-96 object-cover rounded-lg shadow-lg"
+                className="w-full h-auto object-contain rounded-lg shadow-lg"
               />
             </div>
             <div className="animate-fade-in">
@@ -41,14 +41,6 @@ const Sobre = () => {
                 de seus clientes.
               </p>
             </div>
-          </div>
-          
-          <div className="text-center mb-12 animate-fade-in">
-            <img 
-              src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
-              alt="Escritório Sávio Afonso"
-              className="w-full max-w-4xl mx-auto h-96 object-cover rounded-lg shadow-lg"
-            />
           </div>
         </div>
       </section>
@@ -85,6 +77,19 @@ const Sobre = () => {
                 relação custo-benefício.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Image Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center animate-fade-in">
+            <img 
+              src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
+              alt="Escritório Sávio Afonso"
+              className="w-full max-w-4xl mx-auto h-auto object-contain rounded-lg shadow-lg"
+            />
           </div>
         </div>
       </section>
