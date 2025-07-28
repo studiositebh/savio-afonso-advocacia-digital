@@ -41,7 +41,7 @@ const Home = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-44 bg-cover bg-center" style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png')`
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/lovable-uploads/a3a3b309-519e-49c2-b6c8-739455ac6dce.png')`
       }}>
         <div className="container mx-auto px-4 relative text-center">
           <div className="max-w-4xl mx-auto">
@@ -76,7 +76,7 @@ const Home = () => {
               +30 anos de experiência
             </div>
             <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Escritório fundado por Sávio Afonso, com atuação técnica, ética e
+              Escritório fundado por Sávio Afonso de Oliveira, com atuação técnica, ética e
               foco em resultados estratégicos para empresas. Nossa equipe de
               advogados especializados atua com excelência nas mais diversas áreas
               do Direito Empresarial.
@@ -141,9 +141,40 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Contact Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="flex justify-center mb-8">
+              <div className="w-16 h-1 bg-primary"></div>
+            </div>
+            <h2 className="text-3xl font-semibold mb-6 text-gray-800">
+              Contato
+            </h2>
+          </div>
+          
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Endereço</h3>
+              <p className="text-gray-600 mb-4">
+                Rua Astolfo Rodrigues, 17<br />
+                Centro, Araxá – MG
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-semibold mb-4 text-gray-800">Contato</h3>
+              <p className="text-gray-600 mb-2">+55 (34) 3438-0277</p>
+              <p className="text-gray-600 mb-2">📱 +55 (31) 99974-0277</p>
+              <p className="text-gray-600">juridico@savioadv.com.br</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-24 bg-cover bg-center" style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png')`
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/lovable-uploads/a3a3b309-519e-49c2-b6c8-739455ac6dce.png')`
       }}>
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center">

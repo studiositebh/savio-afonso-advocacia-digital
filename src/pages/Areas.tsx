@@ -9,7 +9,7 @@ const Areas = () => {
   const areas = [
     {
       icon: Building,
-      title: "Econômico e Societário",
+      title: "Societário e M&A",
       description: "Assessoria completa em holdings, fusões e aquisições (M&A), reestruturações societárias e governança corporativa.",
       detailedInfo: "Nossa área de Direito Econômico e Societário oferece consultoria especializada em estruturação de holdings familiares e empresariais, planejamento sucessório, fusões e aquisições (M&A), joint ventures, reorganizações societárias, governança corporativa, due diligence, e assessoria em investimentos estrangeiros. Atuamos também na elaboração de acordos de acionistas, contratos de compra e venda de participações societárias, e na implementação de estruturas de proteção patrimonial.",
       image: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a"

@@ -113,9 +113,9 @@ const Contato = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Endereço</h3>
                     <p className="text-gray-600">
-                      Av. Paulista, 1000, Conjunto 1010<br />
-                      Bela Vista, São Paulo - SP<br />
-                      CEP: 01310-100
+                      Rua Astolfo Rodrigues, 17<br />
+                      Centro, Araxá - MG<br />
+                      CEP: 38183-108
                     </p>
                   </div>
                 </div>
@@ -127,8 +127,8 @@ const Contato = () => {
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">Telefones</h3>
                     <p className="text-gray-600">
-                      +55 (11) 3456-7890<br />
-                      +55 (11) 98765-4321
+                      +55 (34) 3438-0277<br />
+                      +55 (31) 99974-0277
                     </p>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const Contato = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-800 mb-1">E-mail</h3>
-                    <p className="text-gray-600">contato@savioafonso.adv.br</p>
+                    <p className="text-gray-600">juridico@savioadv.com.br</p>
                   </div>
                 </div>
               </div>
@@ -272,7 +272,7 @@ const Contato = () => {
               <div className="text-center text-gray-600">
                 <MapPin className="h-12 w-12 mx-auto mb-4" />
                 <p className="text-lg">Mapa Interativo</p>
-                <p className="text-sm">Av. Paulista, 1000 - São Paulo/SP</p>
+                <p className="text-sm">Rua Astolfo Rodrigues, 17 - Araxá/MG</p>
               </div>
             </div>
           </div>

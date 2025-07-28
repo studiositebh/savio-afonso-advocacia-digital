@@ -39,20 +39,20 @@ const Equipe = () => {
                     <div className="text-gray-600 space-y-4">
                       <p>
                         Advogado empresarial com mais de 30 anos de experiência, 
-                        especialista em Direito Societário, Tributário e Econômico. 
-                        Graduado em Direito com especializações em Direito Empresarial 
-                        e Tributário.
+                        especialista em Direito Econômico, Societário e Tributário. 
+                        Graduado em Direito pela UFMG – Universidade Federal de Minas Gerais 
+                        com especialização em Direito da Economia e da Empresa pela FGV – Fundação Getúlio Vargas.
                       </p>
                       <p>
                         Reconhecido pela excelência técnica e visão estratégica, 
                         atua em casos de alta complexidade envolvendo reestruturações 
-                        societárias, fusões e aquisições, e planejamento tributário 
-                        nacional e internacional.
+                        societárias, fusões e aquisições, recuperação e proteção patrimonial 
+                        e planejamento tributário nacional e internacional.
                       </p>
                       <p>
-                        Membro de importantes associações jurídicas e palestrante 
-                        em eventos do setor, contribuindo ativamente para o 
-                        desenvolvimento do Direito Empresarial no Brasil.
+                        Professor de Graduação e Pós-Graduação, membro da Comissão de Apoio Jurídico às 
+                        Micro e Pequenas Empresas da OAB/MG e palestrante em eventos do setor, 
+                        contribuindo ativamente para o desenvolvimento do Direito Empresarial no Brasil.
                       </p>
                     </div>
                     <div className="flex space-x-4 mt-6">
@@ -80,12 +80,12 @@ const Equipe = () => {
         </div>
       </section>
 
-      {/* Team Members Section */}
+      {/* Office Units Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-semibold mb-4 text-gray-800">
-              Advogados Associados
+              Nossas Unidades
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Nossa equipe é composta por profissionais altamente qualificados, 
@@ -93,76 +93,48 @@ const Equipe = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Placeholder team members */}
-            {[
-              {
-                name: "Dr. Carlos Eduardo Silva",
-                position: "Sócio - Direito Tributário",
-                specialization: "Especialista em Planejamento Fiscal e Contencioso Tributário",
-                experience: "15 anos de experiência"
-              },
-              {
-                name: "Dra. Marina Santos Oliveira",
-                position: "Sócia - Direito Societário",
-                specialization: "Especialista em M&A e Reestruturações Societárias",
-                experience: "12 anos de experiência"
-              },
-              {
-                name: "Dr. Ricardo Almeida Costa",
-                position: "Advogado Sênior - Trabalhista",
-                specialization: "Especialista em Compliance Trabalhista",
-                experience: "10 anos de experiência"
-              },
-              {
-                name: "Dra. Ana Paula Ferreira",
-                position: "Advogada Sênior - Civil Empresarial",
-                specialization: "Especialista em Contratos e Proteção Patrimonial",
-                experience: "8 anos de experiência"
-              },
-              {
-                name: "Dr. Fernando Rodrigues",
-                position: "Advogado - Comércio Exterior",
-                specialization: "Especialista em Regimes Aduaneiros",
-                experience: "6 anos de experiência"
-              },
-              {
-                name: "Dra. Juliana Campos",
-                position: "Advogada - Compliance",
-                specialization: "Especialista em LGPD e Governança Corporativa",
-                experience: "5 anos de experiência"
-              }
-            ].map((member, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-400">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-800">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-medium mb-2">
-                    {member.position}
-                  </p>
-                  <p className="text-gray-600 text-sm mb-2">
-                    {member.specialization}
-                  </p>
-                  <p className="text-gray-500 text-sm mb-4">
-                    {member.experience}
-                  </p>
-                  <div className="flex justify-center space-x-2">
-                    <Button variant="outline" size="sm">
-                      <Linkedin className="h-4 w-4" />
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Mail className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="bg-white hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  ARAXÁ/MG
+                </h3>
+                <div className="text-gray-600 space-y-2">
+                  <p>Rua Astolfo Rodrigues, 17</p>
+                  <p>Centro, Araxá/MG</p>
+                  <p>CEP: 38183-108</p>
+                  <p className="font-medium">Tel: (34) 3438-0277</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  BELO HORIZONTE/MG
+                </h3>
+                <div className="text-gray-600 space-y-2">
+                  <p>Rua Afonso Alves Branco, 261</p>
+                  <p>Serra, Belo Horizonte/MG</p>
+                  <p>CEP: 30240-160</p>
+                  <p className="font-medium">Tel: (31) 99974-0277</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <h3 className="text-xl font-semibold mb-4 text-gray-800">
+                  SÃO PAULO/SP
+                </h3>
+                <div className="text-gray-600 space-y-2">
+                  <p>Rua Tabapuã, 474, 8º andar</p>
+                  <p>Itaim Bibi, São Paulo/SP</p>
+                  <p>CEP: 04533-001</p>
+                  <p className="font-medium">Tel: (11) 98748-7745</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

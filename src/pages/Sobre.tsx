@@ -36,9 +36,9 @@ const Sobre = () => {
                 no desenvolvimento de soluções jurídicas inovadoras.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Especialista em reestruturações societárias, planejamento tributário e 
-                operações de M&A, sempre focado em resultados que agreguem valor aos negócios 
-                de seus clientes.
+                Especialista em estruturações e reorganizações societárias, operações de M&A,
+                recuperação e proteção patrimonial, processos sucessórios e planejamentos tributários,
+                sempre focado em resultados que agreguem valor aos negócios de seus clientes.
               </p>
             </div>
           </div>
@@ -81,15 +81,34 @@ const Sobre = () => {
         </div>
       </section>
 
-      {/* Company Image Section */}
+      {/* Office Images Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center animate-fade-in">
-            <img 
-              src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
-              alt="Escritório Sávio Afonso"
-              className="w-full max-w-4xl mx-auto h-auto object-contain rounded-lg shadow-lg"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
+            <div className="text-center">
+              <img 
+                src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
+                alt="Recepção do Escritório"
+                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
+              />
+              <h3 className="text-lg font-semibold text-gray-800">Recepção</h3>
+            </div>
+            <div className="text-center">
+              <img 
+                src="/lovable-uploads/f6f2157f-d9b0-4532-bed6-c5622bfe933b.png"
+                alt="Sala de Reunião"
+                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
+              />
+              <h3 className="text-lg font-semibold text-gray-800">Sala de Reunião</h3>
+            </div>
+            <div className="text-center">
+              <img 
+                src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="Biblioteca"
+                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
+              />
+              <h3 className="text-lg font-semibold text-gray-800">Biblioteca</h3>
+            </div>
           </div>
         </div>
       </section>
@@ -165,9 +184,9 @@ const Sobre = () => {
                 </h3>
                 <div className="flex-grow">
                   <blockquote className="text-lg italic text-white/90 border-l-4 border-white/30 pl-4">
-                    "Criar soluções no âmbito do Direito Empresarial que mantenham os dispêndios 
-                    dos clientes nos estritos limites da Constituição e das Leis e que permitam se 
-                    obtenha a melhor organização jurídica de seus negócios."
+                    "Criar soluções no âmbito do Direito Empresarial que mantenham a
+                    operacionalidade e a rentabilidade dos clientes nos moldes de mercado e que permitam se
+                    obtenha a melhor segurança jurídica de seus negócios."
                   </blockquote>
                 </div>
               </CardContent>

@@ -1,12 +1,26 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, TrendingUp, Shuffle, Shield } from 'lucide-react';
+import { ArrowRight, Building2, TrendingUp, Shuffle, Shield, Recycle, Calculator } from 'lucide-react';
 
 const Projetos = () => {
   const projetos = [
     {
       id: 1,
+      icon: Recycle,
+      title: "Recuperação Operacional dos Negócios e Preservação Patrimonial",
+      description: "Estratégias jurídicas e econômicas para saneamento do endividamento empresarial e a preservação do patrimônio.",
+      detailedDescription: "Estruturamos estratégias e implementamos ações de saneamento de todo o endividamento visando a equalização do fluxo de caixa. Nosso objetivo é viabilizar a operacionalidade dos negócios e, assim, afastar uma eventual falência e, ao mesmo tempo, preservar o patrimônio da empresa e dos sócios/acionistas.",
+      benefits: [
+        "Saneamento do endividamento",
+        "Afastamento da falência",
+        "Preservação do patrimônio",
+        "Viabilizar a sucessão empresarial"
+      ],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+    },
+    {
+      id: 2,
       icon: Building2,
       title: "Estruturação de Holdings",
       description: "Planejamento e implementação de estruturas societárias para proteção patrimonial e otimização fiscal.",
@@ -18,20 +32,6 @@ const Projetos = () => {
         "Organização da governança familiar"
       ],
       image: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a"
-    },
-    {
-      id: 2,
-      icon: TrendingUp,
-      title: "Planejamento Tributário Internacional",
-      description: "Estratégias fiscais para empresas com operações internacionais, considerando acordos e tratados.",
-      detailedDescription: "Desenvolvemos estratégias sofisticadas de planejamento tributário para empresas com operações transnacionais, aproveitando tratados para evitar dupla tributação, regimes de transparência fiscal e estruturas de holding internacional. Nosso foco é minimizar a carga tributária global mantendo total conformidade regulatória.",
-      benefits: [
-        "Redução da carga tributária global",
-        "Aproveitamento de tratados internacionais",
-        "Estruturação de operações offshore",
-        "Compliance com regulamentações internacionais"
-      ],
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
     },
     {
       id: 3,
@@ -60,6 +60,34 @@ const Projetos = () => {
         "Preservação do patrimônio familiar"
       ],
       image: "https://images.unsplash.com/photo-1486718448742-163732cd1544"
+    },
+    {
+      id: 5,
+      icon: Calculator,
+      title: "Planejamento Tributário em face da Reforma Tributária",
+      description: "Estratégias fiscais e tributárias para empresas nacionais e transnacionais considerando a Reforma Tributária (IVA Dual - EC 132/23).",
+      detailedDescription: "Oferecemos consultoria e desenvolvemos estratégias específicas para empresas com operações nacionais e transnacionais, antecipando as distorções e as contingências da reforma visando, assim, afastar dupla tributação ou mesmo tributação indevida. Nosso foco é otimizar a carga tributária incidente durante a implementação do IVA Dual mantendo total conformidade regulatória.",
+      benefits: [
+        "Transição eficaz quanto aos modelos tributários distintos",
+        "Adaptação dos negócios à nova carga tributária",
+        "Redução dos impactos da reforma tributária",
+        "Efetiva segurança jurídica"
+      ],
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+    },
+    {
+      id: 6,
+      icon: TrendingUp,
+      title: "Planejamento Tributário Internacional",
+      description: "Estratégias fiscais para empresas com operações internacionais, considerando acordos e tratados.",
+      detailedDescription: "Desenvolvemos estratégias sofisticadas de planejamento tributário para empresas com operações transnacionais, aproveitando tratados para evitar dupla tributação, regimes de transparência fiscal e estruturas de holding internacional. Nosso foco é minimizar a carga tributária global mantendo total conformidade regulatória.",
+      benefits: [
+        "Redução da carga tributária global",
+        "Aproveitamento de tratados internacionais",
+        "Estruturação de operações offshore",
+        "Compliance com regulamentações internacionais"
+      ],
+      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44"
     }
   ];
 
