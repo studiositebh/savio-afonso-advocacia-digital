@@ -8,46 +8,40 @@ const Areas = () => {
 
   const areas = [
     {
-      icon: Building,
+      image: "/lovable-uploads/8e0ed547-b973-4dcd-a7d7-9ac276630b4c.png",
       title: "Societário e M&A",
       description: "Assessoria completa em holdings, fusões e aquisições (M&A), reestruturações societárias e governança corporativa.",
-      detailedInfo: "Nossa área de Direito Econômico e Societário oferece consultoria especializada em estruturação de holdings familiares e empresariais, planejamento sucessório, fusões e aquisições (M&A), joint ventures, reorganizações societárias, governança corporativa, due diligence, e assessoria em investimentos estrangeiros. Atuamos também na elaboração de acordos de acionistas, contratos de compra e venda de participações societárias, e na implementação de estruturas de proteção patrimonial.",
-      image: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a"
+      detailedInfo: "Nossa área de Direito Econômico e Societário oferece consultoria especializada em estruturação de holdings familiares e empresariais, planejamento sucessório, fusões e aquisições (M&A), joint ventures, reorganizações societárias, governança corporativa, due diligence, e assessoria em investimentos estrangeiros. Atuamos também na elaboração de acordos de acionistas, contratos de compra e venda de participações societárias, e na implementação de estruturas de proteção patrimonial."
     },
     {
-      icon: FileText,
+      image: "/lovable-uploads/73489d5f-c20f-41a5-ac66-f6b8f0406e68.png",
       title: "Fiscal e Tributário",
       description: "Planejamento fiscal estratégico, contencioso tributário e recuperação de créditos fiscais para otimização da carga tributária.",
-      detailedInfo: "Especialização em planejamento tributário preventivo e corretivo, elisão fiscal, contencioso administrativo e judicial tributário, recuperação de créditos fiscais, consultoria em regimes especiais de tributação, análise de incentivos fiscais, restructuring fiscal, transfer pricing, e assessoria em operações com impacto tributário significativo. Oferecemos também suporte em processos de fiscalização e auto de infração.",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+      detailedInfo: "Especialização em planejamento tributário preventivo e corretivo, elisão fiscal, contencioso administrativo e judicial tributário, recuperação de créditos fiscais, consultoria em regimes especiais de tributação, análise de incentivos fiscais, restructuring fiscal, transfer pricing, e assessoria em operações com impacto tributário significativo. Oferecemos também suporte em processos de fiscalização e auto de infração."
     },
     {
-      icon: Scale,
+      image: "/lovable-uploads/0c48838b-faff-4fab-bbbf-b2a890f6c578.png",
       title: "Civil Empresarial",
       description: "Elaboração e revisão de contratos, planejamento sucessório, proteção patrimonial e assessoria imobiliária.",
-      detailedInfo: "Atuação abrangente em Direito Civil aplicado às relações empresariais, incluindo elaboração e revisão de contratos complexos, planejamento sucessório empresarial, proteção patrimonial através de blindagem patrimonial, assessoria imobiliária corporativa, direito de família empresarial, holding familiar, e estruturação de negócios imobiliários. Prestamos consultoria também em questões relacionadas à responsabilidade civil empresarial.",
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07"
+      detailedInfo: "Atuação abrangente em Direito Civil aplicado às relações empresariais, incluindo elaboração e revisão de contratos complexos, planejamento sucessório empresarial, proteção patrimonial através de blindagem patrimonial, assessoria imobiliária corporativa, direito de família empresarial, holding familiar, e estruturação de negócios imobiliários. Prestamos consultoria também em questões relacionadas à responsabilidade civil empresarial."
     },
     {
-      icon: Users,
+      image: "/lovable-uploads/bf783fb3-06df-40cd-ab74-8e222bf5ae98.png",
       title: "Trabalhista Empresarial",
       description: "Gestão de passivos trabalhistas, negociações coletivas, compliance trabalhista e prevenção de contingências.",
-      detailedInfo: "Consultoria preventiva e contenciosa em Direito do Trabalho, incluindo auditoria trabalhista, elaboração de políticas internas, compliance trabalhista, negociações coletivas, reestruturações com impacto trabalhista, terceirização, programa de demissão voluntária (PDV), assessoria em fusões e aquisições com foco trabalhista, e defesa em ações trabalhistas. Oferecemos também treinamentos e capacitação em legislação trabalhista.",
-      image: "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb"
+      detailedInfo: "Consultoria preventiva e contenciosa em Direito do Trabalho, incluindo auditoria trabalhista, elaboração de políticas internas, compliance trabalhista, negociações coletivas, reestruturações com impacto trabalhista, terceirização, programa de demissão voluntária (PDV), assessoria em fusões e aquisições com foco trabalhista, e defesa em ações trabalhistas. Oferecemos também treinamentos e capacitação em legislação trabalhista."
     },
     {
-      icon: Globe,
+      image: "/lovable-uploads/1f81726a-b77d-4c9f-a5af-d9cea9807f85.png",
       title: "Comércio Exterior",
       description: "Consultoria em regimes especiais de importação e exportação, estruturação de Off Shore e Transfer Pricing.",
-      detailedInfo: "Assessoria especializada em operações de comércio exterior, incluindo regimes aduaneiros especiais, drawback, RECOF, entreposto aduaneiro, admissão temporária, consultoria em classificação fiscal de mercadorias, origem de produtos, acordos comerciais internacionais, defesa em processos administrativos na área aduaneira, estruturação de operações offshore, e implementação de políticas de transfer pricing conforme legislação brasileira e internacional.",
-      image: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151"
+      detailedInfo: "Assessoria especializada em operações de comércio exterior, incluindo regimes aduaneiros especiais, drawback, RECOF, entreposto aduaneiro, admissão temporária, consultoria em classificação fiscal de mercadorias, origem de produtos, acordos comerciais internacionais, defesa em processos administrativos na área aduaneira, estruturação de operações offshore, e implementação de políticas de transfer pricing conforme legislação brasileira e internacional."
     },
     {
-      icon: Shield,
+      image: "/lovable-uploads/0a2cd42c-136b-4a32-899e-95279716523f.png",
       title: "Compliance e Governança",
       description: "Implementação de programas de integridade, adequação à LGPD e estruturação de governança corporativa.",
-      detailedInfo: "Desenvolvimento e implementação de programas de compliance e integridade corporativa, adequação à Lei Geral de Proteção de Dados (LGPD), estruturação de governança corporativa, elaboração de códigos de ética e conduta, políticas anticorrupção, due diligence de integridade, treinamentos em compliance, auditoria de conformidade, e assessoria em investigações internas. Atuamos também na adequação a regulamentações setoriais específicas.",
-      image: "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a"
+      detailedInfo: "Desenvolvimento e implementação de programas de compliance e integridade corporativa, adequação à Lei Geral de Proteção de Dados (LGPD), estruturação de governança corporativa, elaboração de códigos de ética e conduta, políticas anticorrupção, due diligence de integridade, treinamentos em compliance, auditoria de conformidade, e assessoria em investigações internas. Atuamos também na adequação a regulamentações setoriais específicas."
     }
   ];
 
@@ -78,14 +72,17 @@ const Areas = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {areas.map((area, index) => {
-              const IconComponent = area.icon;
               const isExpanded = expandedArea === index;
               
               return (
                 <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 border-gray-100">
                   <CardContent className="p-8">
-                    <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                      <IconComponent className="h-6 w-6 text-primary" />
+                    <div className="w-16 h-16 mb-6 rounded-lg overflow-hidden">
+                      <img 
+                        src={area.image} 
+                        alt={area.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <h3 className="text-xl font-semibold mb-3 text-gray-800">
                       {area.title}

@@ -6,32 +6,32 @@ import { Card, CardContent } from '@/components/ui/card';
 const Home = () => {
   const areas = [
     {
-      icon: Building,
-      title: "Econômico e Societário",
+      image: "/lovable-uploads/8e0ed547-b973-4dcd-a7d7-9ac276630b4c.png",
+      title: "Societário e M&A",
       description: "Assessoria completa em holdings, fusões e aquisições (M&A), reestruturações societárias e governança corporativa."
     },
     {
-      icon: FileText,
+      image: "/lovable-uploads/73489d5f-c20f-41a5-ac66-f6b8f0406e68.png",
       title: "Fiscal e Tributário",
       description: "Planejamento fiscal estratégico, contencioso tributário e recuperação de créditos fiscais para otimização da carga tributária."
     },
     {
-      icon: Scale,
+      image: "/lovable-uploads/0c48838b-faff-4fab-bbbf-b2a890f6c578.png",
       title: "Civil Empresarial",
       description: "Elaboração e revisão de contratos, planejamento sucessório, proteção patrimonial e assessoria imobiliária."
     },
     {
-      icon: Users,
+      image: "/lovable-uploads/bf783fb3-06df-40cd-ab74-8e222bf5ae98.png",
       title: "Trabalhista Empresarial",
       description: "Gestão de passivos trabalhistas, negociações coletivas, compliance trabalhista e prevenção de contingências."
     },
     {
-      icon: Globe,
+      image: "/lovable-uploads/1f81726a-b77d-4c9f-a5af-d9cea9807f85.png",
       title: "Comércio Exterior",
       description: "Consultoria em regimes especiais de importação e exportação, estruturação de Off Shore e Transfer Pricing."
     },
     {
-      icon: Shield,
+      image: "/lovable-uploads/0a2cd42c-136b-4a32-899e-95279716523f.png",
       title: "Compliance e Governança",
       description: "Implementação de programas de integridade, adequação à LGPD e estruturação de governança corporativa."
     }
@@ -114,12 +114,15 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {areas.map((area, index) => {
-              const IconComponent = area.icon;
               return (
                 <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 border-gray-100">
                   <CardContent className="p-8">
-                    <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                      <IconComponent className="h-6 w-6 text-primary" />
+                    <div className="w-16 h-16 mb-6 rounded-lg overflow-hidden">
+                      <img 
+                        src={area.image} 
+                        alt={area.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <h3 className="text-xl font-semibold mb-3 text-gray-800">
                       {area.title}
