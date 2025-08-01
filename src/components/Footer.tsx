@@ -56,20 +56,21 @@ const Footer = () => {
               <li className="flex items-start">
                 <MapPin className="h-4 w-4 mr-3 mt-1 text-primary" />
                 <span className="text-gray-400">
-                  Av. Paulista, 1000, Conjunto 1010<br />
-                  Bela Vista, São Paulo - SP
+                  Rua Astolfo Rodrigues, 17<br />
+                  Centro, Araxá - MG<br />
+                  CEP: 38183-108
                 </span>
               </li>
               <li className="flex items-start">
                 <Phone className="h-4 w-4 mr-3 mt-1 text-primary" />
                 <span className="text-gray-400">
-                  +55 (11) 3456-7890<br />
-                  +55 (11) 98765-4321
+                  +55 (34) 3438-0277<br />
+                  +55 (31) 99974-0277
                 </span>
               </li>
               <li className="flex items-start">
                 <Mail className="h-4 w-4 mr-3 mt-1 text-primary" />
-                <span className="text-gray-400">contato@savioafonso.adv.br</span>
+                <span className="text-gray-400">juridico@savioadv.com.br</span>
               </li>
             </ul>
           </div>
