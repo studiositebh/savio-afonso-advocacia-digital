@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <img 
-              src="https://static.readdy.ai/image/492c2245840acdd598be659b49d04ff6/35e0f6fecfb0f0f710bb27287c7c3a55.png" 
+              src="/lovable-uploads/ea012dd9-4d66-4596-95af-836883f5642c.png" 
               alt="Sávio Afonso de Oliveira" 
               className="h-12 mb-4 brightness-0 invert"
             />
