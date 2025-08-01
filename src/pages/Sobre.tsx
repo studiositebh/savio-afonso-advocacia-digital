@@ -103,7 +103,7 @@ const Sobre = () => {
             </div>
             <div className="text-center">
               <img 
-                src="/lovable-uploads/ea012dd9-4d66-4596-95af-836883f5642c.png"
+                src="/lovable-uploads/7e6bdf62-16fc-48eb-b3c5-b1e13200628e.png"
                 alt="Biblioteca"
                 className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
               />
