@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 const Home = () => {
   const areas = [
     {
-      image: "/lovable-uploads/8e0ed547-b973-4dcd-a7d7-9ac276630b4c.png",
+      image: "/lovable-uploads/80d011c6-45cc-485a-bde6-a07cadce431b.png",
       title: "Societário e M&A",
       description: "Assessoria completa em holdings, fusões e aquisições (M&A), reestruturações societárias e governança corporativa."
     },

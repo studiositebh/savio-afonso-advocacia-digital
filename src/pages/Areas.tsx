@@ -8,7 +8,7 @@ const Areas = () => {
 
   const areas = [
     {
-      image: "/lovable-uploads/8e0ed547-b973-4dcd-a7d7-9ac276630b4c.png",
+      image: "/lovable-uploads/80d011c6-45cc-485a-bde6-a07cadce431b.png",
       title: "Societário e M&A",
       description: "Assessoria completa em holdings, fusões e aquisições (M&A), reestruturações societárias e governança corporativa.",
       detailedInfo: "Nossa área de Direito Econômico e Societário oferece consultoria especializada em estruturação de holdings familiares e empresariais, planejamento sucessório, fusões e aquisições (M&A), joint ventures, reorganizações societárias, governança corporativa, due diligence, e assessoria em investimentos estrangeiros. Atuamos também na elaboração de acordos de acionistas, contratos de compra e venda de participações societárias, e na implementação de estruturas de proteção patrimonial."
