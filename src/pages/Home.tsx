@@ -40,7 +40,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-48 pb-44 bg-cover bg-center" style={{
+      <section className="relative pt-[202px] pb-44 bg-cover bg-center" style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/lovable-uploads/a3a3b309-519e-49c2-b6c8-739455ac6dce.png')`
       }}>
         <div className="container mx-auto px-4 relative text-center">

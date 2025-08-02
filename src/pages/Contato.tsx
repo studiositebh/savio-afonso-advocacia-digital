@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const Contato = () => {
     assunto: '',
     mensagem: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,7 +35,7 @@ const Contato = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -57,20 +59,39 @@ const Contato = () => {
       return;
     }
 
-    // Success message
-    toast({
-      title: "Mensagem enviada com sucesso!",
-      description: "Entraremos em contato em breve. Obrigado!"
-    });
+    setIsSubmitting(true);
 
-    // Reset form
-    setFormData({
-      nome: '',
-      email: '',
-      telefone: '',
-      assunto: '',
-      mensagem: ''
-    });
+    try {
+      const { data, error } = await supabase.functions.invoke('send-email', {
+        body: formData
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Mensagem enviada com sucesso!",
+        description: "Entraremos em contato em breve. Obrigado!"
+      });
+
+      // Reset form
+      setFormData({
+        nome: '',
+        email: '',
+        telefone: '',
+        assunto: '',
+        mensagem: ''
+      });
+
+    } catch (error) {
+      console.error('Erro ao enviar email:', error);
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: "Tente novamente ou entre em contato por telefone.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -250,8 +271,8 @@ const Contato = () => {
                       />
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full">
-                      Fale com o Escritório
+                    <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? 'Enviando...' : 'Fale com o Escritório'}
                     </Button>
                   </form>
                 </CardContent>
