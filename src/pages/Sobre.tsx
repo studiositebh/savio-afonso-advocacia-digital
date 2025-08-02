@@ -81,37 +81,6 @@ const Sobre = () => {
         </div>
       </section>
 
-      {/* Office Images Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in">
-            <div className="text-center">
-              <img 
-                src="/lovable-uploads/edc58d0e-7db7-4db1-ad57-13d8afa24630.png"
-                alt="Recepção do Escritório"
-                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
-              />
-              <h3 className="text-lg font-semibold text-gray-800">Recepção</h3>
-            </div>
-            <div className="text-center">
-              <img 
-                src="/lovable-uploads/f6f2157f-d9b0-4532-bed6-c5622bfe933b.png"
-                alt="Sala de Reunião"
-                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
-              />
-              <h3 className="text-lg font-semibold text-gray-800">Sala de Reunião</h3>
-            </div>
-            <div className="text-center">
-              <img 
-                src="/lovable-uploads/7e6bdf62-16fc-48eb-b3c5-b1e13200628e.png"
-                alt="Biblioteca"
-                className="w-full h-64 object-cover rounded-lg shadow-lg mb-4"
-              />
-              <h3 className="text-lg font-semibold text-gray-800">Biblioteca</h3>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Cards Section */}
       <section className="py-16 bg-white">

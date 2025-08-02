@@ -77,7 +77,7 @@ const Areas = () => {
               return (
                 <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300 border-gray-100">
                   <CardContent className="p-8">
-                    <div className="w-16 h-16 mb-6 rounded-lg overflow-hidden">
+                    <div className="w-24 h-24 mb-6 rounded-lg overflow-hidden">
                       <img 
                         src={area.image} 
                         alt={area.title}
