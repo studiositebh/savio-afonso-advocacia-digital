@@ -1,0 +1,97 @@
+/*
+Theme Name: DRADigital Theme
+Theme URI: https://dradigital.com.br/
+Author: DRADigital
+Author URI: https://dradigital.com.br/
+Description: Clean, responsive, multi-page WordPress theme with basic Customizer options.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: dradigital
+Tags: one-column, two-columns, right-sidebar, custom-logo, custom-menu, featured-images, translation-ready
+*/
+
+/* Base resets and variables */
+:root {
+  --primary: #0ea5e9; /* fallback, overridden by Customizer */
+  --text: #0f172a;
+  --muted: #475569;
+  --bg: #ffffff;
+  --bg-alt: #f8fafc;
+  --header-padding: 48px; /* fallback, overridden by Customizer */
+}
+
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body {
+  margin: 0;
+  font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  width: min(1100px, 92%);
+  margin-inline: auto;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.site-header {
+  position: relative;
+  padding: var(--header-padding) 0 24px;
+  background: var(--bg);
+  border-bottom: 1px solid #e2e8f0;
+}
+.site-branding { display: flex; align-items: center; gap: 14px; }
+.site-title { margin: 0; font-size: 1.25rem; font-weight: 700; }
+.site-description { margin: 0; color: var(--muted); font-size: .95rem; }
+
+.primary-nav { margin-top: 16px; }
+.primary-nav ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; }
+.primary-nav a { padding: 8px 10px; border-radius: 8px; }
+.primary-nav a:hover, .primary-nav .current-menu-item > a { background: var(--bg-alt); text-decoration: none; }
+
+.hero {
+  padding: 72px 0;
+  background: var(--bg-alt);
+  border-bottom: 1px solid #e2e8f0;
+}
+.hero--image { background-size: cover; background-position: center; color: #ffffff; }
+.hero h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 3rem); }
+.hero p { margin: 0; color: inherit; opacity: .9; }
+
+.content { padding: 40px 0; }
+.entry { margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid #e2e8f0; }
+.entry-title { margin: 0 0 10px; font-size: 1.5rem; }
+.entry-meta { color: var(--muted); font-size: .9rem; margin-bottom: 12px; }
+
+.pagination { display: flex; gap: 8px; }
+
+.site-footer {
+  margin-top: 40px;
+  padding: 32px 0;
+  background: var(--bg-alt);
+  border-top: 1px solid #e2e8f0;
+  color: var(--muted);
+}
+.footer-nav ul { list-style: none; padding: 0; margin: 0 0 12px; display: flex; gap: 16px; flex-wrap: wrap; }
+.small { font-size: .9rem; }
+
+/* Widgets */
+.widget { margin-bottom: 28px; }
+.widget-title { margin: 0 0 12px; font-size: 1.1rem; }
+
+/* Comments */
+.comments-area { margin-top: 40px; }
+.comment-list { list-style: none; padding: 0; }
+.comment-body { padding: 16px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 14px; }
+
+/* Forms */
+input, select, textarea { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #cbd5e1; }
+button, .button, input[type=submit] { background: var(--primary); color: #fff; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+button:hover, .button:hover, input[type=submit]:hover { opacity: .9; }
