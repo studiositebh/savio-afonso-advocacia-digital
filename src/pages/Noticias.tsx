@@ -130,7 +130,12 @@ const Noticias = () => {
                     <span className="text-sm text-gray-500">
                       Fonte: {noticia.source}
                     </span>
-                    <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="text-primary hover:text-primary/80"
+                      onClick={() => window.open(noticia.link, '_blank')}
+                    >
                       <ExternalLink className="h-4 w-4 mr-1" />
                       Ler mais
                     </Button>

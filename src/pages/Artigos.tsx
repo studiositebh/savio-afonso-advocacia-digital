@@ -152,7 +152,13 @@ const Artigos = () => {
                       </div>
                       
                       <div className="flex gap-2 mt-4">
-                        <Button className="flex-1">
+                        <Button 
+                          className="flex-1"
+                          onClick={() => {
+                            // Implementar navegação para artigo específico
+                            console.log(`Navegando para artigo ${artigo.id}`);
+                          }}
+                        >
                           Ler Artigo
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
@@ -207,7 +213,14 @@ const Artigos = () => {
                   </div>
                   
                   <div className="flex gap-2">
-                    <Button variant="outline" className="flex-1">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => {
+                        // Implementar navegação para artigo específico
+                        console.log(`Navegando para artigo ${artigo.id}`);
+                      }}
+                    >
                       Ler Artigo
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
