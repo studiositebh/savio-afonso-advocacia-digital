@@ -12,6 +12,7 @@ import { generateSlug } from '@/utils/slug';
 import { Save, ArrowLeft } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { ImageUpload } from '@/components/ImageUpload';
 
 interface Category {
   id: string;
@@ -332,24 +333,12 @@ export default function PostForm() {
               <CardHeader>
                 <CardTitle>Imagem Destaque</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="featured_image">URL da Imagem</Label>
-                  <Input
-                    id="featured_image"
-                    type="url"
-                    value={formData.featured_image}
-                    onChange={(e) => handleInputChange('featured_image', e.target.value)}
-                    placeholder="https://exemplo.com/imagem.jpg"
-                  />
-                </div>
-                {formData.featured_image && (
-                  <img
-                    src={formData.featured_image}
-                    alt="Preview"
-                    className="w-full h-32 object-cover rounded-md"
-                  />
-                )}
+              <CardContent>
+                <ImageUpload
+                  value={formData.featured_image}
+                  onChange={(url) => handleInputChange('featured_image', url)}
+                  label="Imagem destaque do post"
+                />
               </CardContent>
             </Card>
 

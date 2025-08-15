@@ -1,66 +1,63 @@
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, ExternalLink, ArrowRight } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+
+interface Noticia {
+  id: string;
+  title: string;
+  description: string;
+  source_name: string;
+  source_url: string;
+  created_at: string;
+  featured_image?: string;
+  post_categories: {
+    categories: {
+      name: string;
+    };
+  }[];
+}
 
 const Noticias = () => {
-  // Mock data for news articles
-  const noticias = [
-    {
-      id: 1,
-      title: "Nova Lei de Recuperação Judicial Empresarial é Sancionada",
-      summary: "Mudanças significativas no processo de recuperação judicial prometem agilizar procedimentos e proteger melhor credores e devedores.",
-      category: "Legislação",
-      date: "2024-01-15",
-      source: "Valor Econômico",
-      link: "#"
-    },
-    {
-      id: 2,
-      title: "STF Define Novos Parâmetros para Transfer Pricing",
-      summary: "Supremo Tribunal Federal estabelece critérios mais claros para análise de preços de transferência em operações internacionais.",
-      category: "Tributário",
-      date: "2024-01-12",
-      source: "Estadão",
-      link: "#"
-    },
-    {
-      id: 3,
-      title: "Marco do Saneamento: Impactos Societários para Empresas do Setor",
-      summary: "Análise dos reflexos do novo marco legal do saneamento nas estruturas societárias e oportunidades de investimento.",
-      category: "Societário",
-      date: "2024-01-10",
-      source: "Folha de S.Paulo",
-      link: "#"
-    },
-    {
-      id: 4,
-      title: "Avanços na Regulamentação da LGPD para Empresas",
-      summary: "ANPD publica novas diretrizes para implementação de programas de proteção de dados pessoais em ambiente corporativo.",
-      category: "Compliance",
-      date: "2024-01-08",
-      source: "O Globo",
-      link: "#"
-    },
-    {
-      id: 5,
-      title: "Reforma Trabalhista: Tendências para 2024",
-      summary: "Especialistas apontam principais mudanças esperadas na legislação trabalhista e seus impactos nas relações empresariais.",
-      category: "Trabalhista",
-      date: "2024-01-05",
-      source: "Revista Consultor Jurídico",
-      link: "#"
-    },
-    {
-      id: 6,
-      title: "Comércio Exterior: Novas Facilidades Aduaneiras",
-      summary: "Receita Federal anuncia simplificação de processos para importação e exportação, beneficiando empresas do setor.",
-      category: "Comércio Exterior",
-      date: "2024-01-03",
-      source: "DCI",
-      link: "#"
+  const [noticias, setNoticias] = useState<Noticia[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchNoticias();
+  }, []);
+
+  const fetchNoticias = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select(`
+          id,
+          title,
+          description,
+          source_name,
+          source_url,
+          created_at,
+          featured_image,
+          post_categories (
+            categories (
+              name
+            )
+          )
+        `)
+        .eq('type', 'news')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setNoticias(data || []);
+    } catch (error) {
+      console.error('Erro ao carregar notícias:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
@@ -82,6 +79,14 @@ const Noticias = () => {
       year: 'numeric'
     });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20">
@@ -105,44 +110,62 @@ const Noticias = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {noticias.map((noticia) => (
-              <Card key={noticia.id} className="hover:shadow-lg transition-all duration-300 h-full">
-                <CardContent className="p-6 flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-3">
-                    <Badge className={getCategoryColor(noticia.category)}>
-                      {noticia.category}
-                    </Badge>
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      {formatDate(noticia.date)}
+            {noticias.length > 0 ? (
+              noticias.map((noticia) => (
+                <Card key={noticia.id} className="hover:shadow-lg transition-all duration-300 h-full">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    {noticia.featured_image && (
+                      <img
+                        src={noticia.featured_image}
+                        alt={noticia.title}
+                        className="w-full h-48 object-cover rounded-md mb-4"
+                      />
+                    )}
+                    
+                    <div className="flex items-center justify-between mb-3">
+                      {noticia.post_categories[0] && (
+                        <Badge className={getCategoryColor(noticia.post_categories[0].categories.name)}>
+                          {noticia.post_categories[0].categories.name}
+                        </Badge>
+                      )}
+                      <div className="flex items-center text-gray-500 text-sm">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        {formatDate(noticia.created_at)}
+                      </div>
                     </div>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800 line-clamp-2">
-                    {noticia.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
-                    {noticia.summary}
-                  </p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <span className="text-sm text-gray-500">
-                      Fonte: {noticia.source}
-                    </span>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="text-primary hover:text-primary/80"
-                      onClick={() => window.open(noticia.link, '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4 mr-1" />
-                      Ler mais
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    
+                    <h3 className="text-xl font-semibold mb-3 text-gray-800 line-clamp-2">
+                      {noticia.title}
+                    </h3>
+                    
+                    <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
+                      {noticia.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <span className="text-sm text-gray-500">
+                        {noticia.source_name && `Fonte: ${noticia.source_name}`}
+                      </span>
+                      {noticia.source_url && (
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-primary hover:text-primary/80"
+                          onClick={() => window.open(noticia.source_url, '_blank')}
+                        >
+                          <ExternalLink className="h-4 w-4 mr-1" />
+                          Ler mais
+                        </Button>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-500 text-lg">Nenhuma notícia publicada ainda.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
