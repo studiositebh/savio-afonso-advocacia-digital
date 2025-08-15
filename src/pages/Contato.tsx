@@ -131,44 +131,58 @@ const Contato = () => {
                   <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
                     <MapPin className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-800 mb-1">Endereço</h3>
-                    <p className="text-gray-600">
-                      Rua Astolfo Rodrigues, 17<br />
-                      Centro, Araxá - MG<br />
-                      CEP: 38183-108
-                    </p>
-                  </div>
+                   <div>
+                     <h3 className="font-semibold text-gray-800 mb-1">Endereço</h3>
+                     <a 
+                       href="https://maps.google.com/?q=Rua+Astolfo+Rodrigues,+17,+Centro,+Araxá+-+MG,+38183-108" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       className="text-gray-600 hover:text-primary transition-colors"
+                     >
+                       Rua Astolfo Rodrigues, 17<br />
+                       Centro, Araxá - MG<br />
+                       CEP: 38183-108
+                     </a>
+                   </div>
                 </div>
 
                 <div className="flex items-start">
                   <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
                     <Phone className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-800 mb-1">Telefones</h3>
-                    <p className="text-gray-600">
-                      +55 (34) 3438-0277<br />
-                      +55 (31) 99974-0277
-                    </p>
-                  </div>
+                   <div>
+                     <h3 className="font-semibold text-gray-800 mb-1">Telefones</h3>
+                     <div className="text-gray-600 space-y-1">
+                       <a href="tel:+553434380277" className="block hover:text-primary transition-colors">
+                         (34) 3438-0277
+                       </a>
+                       <a href="https://wa.me/5531999740277" target="_blank" rel="noopener noreferrer" className="block hover:text-primary transition-colors">
+                         (31) 99974-0277
+                       </a>
+                     </div>
+                   </div>
                 </div>
 
                 <div className="flex items-start">
                   <div className="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mr-4 flex-shrink-0">
                     <Mail className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-800 mb-1">E-mail</h3>
-                    <p className="text-gray-600">juridico@savioadv.com.br</p>
-                  </div>
+                   <div>
+                     <h3 className="font-semibold text-gray-800 mb-1">E-mail</h3>
+                     <a 
+                       href="mailto:juridico@savioadv.com.br" 
+                       className="text-gray-600 hover:text-primary transition-colors"
+                     >
+                       juridico@savioadv.com.br
+                     </a>
+                   </div>
                 </div>
               </div>
 
               <div className="mt-8">
                 <h3 className="font-semibold text-gray-800 mb-4">Redes Sociais</h3>
                 <div className="flex space-x-4">
-                  <a href="https://www.linkedin.com/in/savio-afonso-de-oliveira-1ab555120" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">
+                   <a href="https://www.linkedin.com/in/savio-afonso-de-oliveira-1ab555120" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">
                     <Linkedin className="h-5 w-5" />
                   </a>
                   <a href="#" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">

@@ -3,6 +3,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, ExternalLink, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Noticia {
@@ -114,13 +115,15 @@ const Noticias = () => {
               noticias.map((noticia) => (
                 <Card key={noticia.id} className="hover:shadow-lg transition-all duration-300 h-full">
                   <CardContent className="p-6 flex flex-col h-full">
-                    {noticia.featured_image && (
-                      <img
-                        src={noticia.featured_image}
-                        alt={noticia.title}
-                        className="w-full h-48 object-cover rounded-md mb-4"
-                      />
-                    )}
+                     {noticia.featured_image && (
+                       <Link to={`/noticias/${noticia.id}`}>
+                         <img
+                           src={noticia.featured_image}
+                           alt={noticia.title}
+                           className="w-full h-48 object-cover rounded-md mb-4 hover:opacity-90 transition-opacity cursor-pointer"
+                         />
+                       </Link>
+                     )}
                     
                     <div className="flex items-center justify-between mb-3">
                       {noticia.post_categories[0] && (
@@ -134,30 +137,33 @@ const Noticias = () => {
                       </div>
                     </div>
                     
-                    <h3 className="text-xl font-semibold mb-3 text-gray-800 line-clamp-2">
-                      {noticia.title}
-                    </h3>
+                     <Link 
+                       to={`/noticias/${noticia.id}`}
+                       className="text-xl font-semibold mb-3 text-gray-800 line-clamp-2 hover:text-primary transition-colors cursor-pointer block"
+                     >
+                       {noticia.title}
+                     </Link>
                     
                     <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
                       {noticia.description}
                     </p>
                     
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                      <span className="text-sm text-gray-500">
-                        {noticia.source_name && `Fonte: ${noticia.source_name}`}
-                      </span>
-                      {noticia.source_url && (
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-primary hover:text-primary/80"
-                          onClick={() => window.open(noticia.source_url, '_blank')}
-                        >
-                          <ExternalLink className="h-4 w-4 mr-1" />
-                          Ler mais
-                        </Button>
-                      )}
-                    </div>
+                     <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                       <span className="text-sm text-gray-500">
+                         {noticia.source_name && `Fonte: ${noticia.source_name}`}
+                       </span>
+                       <Button 
+                         variant="ghost" 
+                         size="sm" 
+                         className="text-primary hover:text-primary/80"
+                         asChild
+                       >
+                         <Link to={`/noticias/${noticia.id}`}>
+                           <ArrowRight className="h-4 w-4 mr-1" />
+                           Saiba mais
+                         </Link>
+                       </Button>
+                     </div>
                   </CardContent>
                 </Card>
               ))

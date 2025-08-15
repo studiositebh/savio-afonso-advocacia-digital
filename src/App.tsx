@@ -13,6 +13,7 @@ import Sobre from "./pages/Sobre";
 import Areas from "./pages/Areas";
 import Equipe from "./pages/Equipe";
 import Noticias from "./pages/Noticias";
+import NoticiaDetalhes from "./pages/NoticiaDetalhes";
 import Artigos from "./pages/Artigos";
 import Projetos from "./pages/Projetos";
 import Contato from "./pages/Contato";
@@ -40,13 +41,14 @@ const App = () => (
                 <main className="flex-1">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/sobre" element={<Sobre />} />
-                    <Route path="/areas" element={<Areas />} />
-                    <Route path="/equipe" element={<Equipe />} />
-                    <Route path="/noticias" element={<Noticias />} />
-                    <Route path="/artigos" element={<Artigos />} />
-                    <Route path="/projetos" element={<Projetos />} />
-                    <Route path="/contato" element={<Contato />} />
+                     <Route path="/sobre" element={<Sobre />} />
+                     <Route path="/areas" element={<Areas />} />
+                     <Route path="/equipe" element={<Equipe />} />
+                     <Route path="/noticias" element={<Noticias />} />
+                     <Route path="/noticias/:id" element={<NoticiaDetalhes />} />
+                     <Route path="/artigos" element={<Artigos />} />
+                     <Route path="/projetos" element={<Projetos />} />
+                     <Route path="/contato" element={<Contato />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

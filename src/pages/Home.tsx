@@ -161,47 +161,59 @@ const Home = () => {
           
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-              {/* Endereço */}
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <MapPin className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800 mb-2">Endereço</h3>
-                  <p className="text-gray-600 text-sm">
-                    Rua Astolfo Rodrigues, 17<br />
-                    Centro, Araxá - MG<br />
-                    CEP: 38183-108
-                  </p>
-                </CardContent>
-              </Card>
+               {/* Endereço */}
+               <Card className="text-center hover:shadow-lg transition-shadow">
+                 <CardContent className="p-6">
+                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <MapPin className="h-6 w-6 text-primary" />
+                   </div>
+                   <h3 className="font-semibold text-gray-800 mb-2">Endereço</h3>
+                   <a 
+                     href="https://maps.google.com/?q=Rua+Astolfo+Rodrigues,+17,+Centro,+Araxá+-+MG,+38183-108" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="text-gray-600 text-sm hover:text-primary transition-colors"
+                   >
+                     Rua Astolfo Rodrigues, 17<br />
+                     Centro, Araxá - MG<br />
+                     CEP: 38183-108
+                   </a>
+                 </CardContent>
+               </Card>
 
-              {/* Telefones */}
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Phone className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800 mb-2">Telefones</h3>
-                  <p className="text-gray-600 text-sm">
-                    (34) 3438-0277<br />
-                    (31) 99974-0277
-                  </p>
-                </CardContent>
-              </Card>
+               {/* Telefones */}
+               <Card className="text-center hover:shadow-lg transition-shadow">
+                 <CardContent className="p-6">
+                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <Phone className="h-6 w-6 text-primary" />
+                   </div>
+                   <h3 className="font-semibold text-gray-800 mb-2">Telefones</h3>
+                   <div className="text-gray-600 text-sm space-y-1">
+                     <a href="tel:+553434380277" className="block hover:text-primary transition-colors">
+                       (34) 3438-0277
+                     </a>
+                     <a href="https://wa.me/5531999740277" target="_blank" rel="noopener noreferrer" className="block hover:text-primary transition-colors">
+                       (31) 99974-0277
+                     </a>
+                   </div>
+                 </CardContent>
+               </Card>
 
-              {/* E-mail */}
-              <Card className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800 mb-2">E-mail</h3>
-                  <p className="text-gray-600 text-sm">
-                    juridico@savioadv.com.br
-                  </p>
-                </CardContent>
-              </Card>
+               {/* E-mail */}
+               <Card className="text-center hover:shadow-lg transition-shadow">
+                 <CardContent className="p-6">
+                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <Mail className="h-6 w-6 text-primary" />
+                   </div>
+                   <h3 className="font-semibold text-gray-800 mb-2">E-mail</h3>
+                   <a 
+                     href="mailto:juridico@savioadv.com.br" 
+                     className="text-gray-600 text-sm hover:text-primary transition-colors"
+                   >
+                     juridico@savioadv.com.br
+                   </a>
+                 </CardContent>
+               </Card>
 
               {/* Horário */}
               <Card className="text-center hover:shadow-lg transition-shadow">

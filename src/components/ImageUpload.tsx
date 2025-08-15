@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -16,8 +17,18 @@ export function ImageUpload({ value, onChange, label = "Imagem" }: ImageUploadPr
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const uploadImage = async (file: File) => {
+    if (!user) {
+      toast({
+        title: "Erro de autenticação",
+        description: "Você precisa estar logado para fazer upload de imagens.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setUploading(true);
     
     try {
@@ -31,6 +42,22 @@ export function ImageUpload({ value, onChange, label = "Imagem" }: ImageUploadPr
 
       if (uploadError) {
         throw uploadError;
+      }
+
+      // Also save to media table for tracking
+      const { error: dbError } = await supabase
+        .from('media')
+        .insert({
+          filename: fileName,
+          original_name: file.name,
+          file_path: filePath,
+          mime_type: file.type,
+          file_size: file.size,
+          user_id: user.id
+        });
+
+      if (dbError) {
+        console.warn('Erro ao salvar no banco:', dbError);
       }
 
       const { data } = supabase.storage
