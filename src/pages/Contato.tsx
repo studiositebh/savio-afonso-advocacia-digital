@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
-import Map from '@/components/Map';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -283,17 +282,6 @@ const Contato = () => {
         </div>
       </section>
 
-      {/* Map Section (Placeholder) */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">
-            Nossa Localização
-          </h2>
-          <div className="max-w-4xl mx-auto">
-            <Map />
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
