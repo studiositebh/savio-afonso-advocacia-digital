@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building, FileText, Users, Globe, Scale, Shield } from 'lucide-react';
+import { ArrowRight, Building, FileText, Users, Globe, Scale, Shield, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -152,24 +152,79 @@ const Home = () => {
               <div className="w-16 h-1 bg-primary"></div>
             </div>
             <h2 className="text-3xl font-semibold mb-6 text-gray-800">
-              Contato
+              Entre em Contato
             </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Estamos prontos para atender suas necessidades jurídicas empresariais
+            </p>
           </div>
           
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Endereço</h3>
-              <p className="text-gray-600 mb-4">
-                Rua Astolfo Rodrigues, 17<br />
-                Centro, Araxá – MG
-              </p>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              {/* Endereço */}
+              <Card className="text-center hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">Endereço</h3>
+                  <p className="text-gray-600 text-sm">
+                    Rua Astolfo Rodrigues, 17<br />
+                    Centro, Araxá - MG<br />
+                    CEP: 38183-108
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Telefones */}
+              <Card className="text-center hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Phone className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">Telefones</h3>
+                  <p className="text-gray-600 text-sm">
+                    (34) 3438-0277<br />
+                    (31) 99974-0277
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* E-mail */}
+              <Card className="text-center hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Mail className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">E-mail</h3>
+                  <p className="text-gray-600 text-sm">
+                    juridico@savioadv.com.br
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Horário */}
+              <Card className="text-center hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Clock className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-gray-800 mb-2">Horários</h3>
+                  <p className="text-gray-600 text-sm">
+                    Seg a Sex: 9h às 18h<br />
+                    Sáb: 9h às 12h
+                  </p>
+                </CardContent>
+              </Card>
             </div>
-            
-            <div>
-              <h3 className="text-xl font-semibold mb-4 text-gray-800">Contato</h3>
-              <p className="text-gray-600 mb-2">+55 (34) 3438-0277</p>
-              <p className="text-gray-600 mb-2">📱 +55 (31) 99974-0277</p>
-              <p className="text-gray-600">juridico@savioadv.com.br</p>
+
+            <div className="text-center">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
+                <Link to="/contato">
+                  Fale Conosco
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

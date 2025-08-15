@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
+import Map from '@/components/Map';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -168,7 +169,7 @@ const Contato = () => {
               <div className="mt-8">
                 <h3 className="font-semibold text-gray-800 mb-4">Redes Sociais</h3>
                 <div className="flex space-x-4">
-                  <a href="#" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">
+                  <a href="https://www.linkedin.com/in/savio-afonso-de-oliveira-1ab555120" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">
                     <Linkedin className="h-5 w-5" />
                   </a>
                   <a href="#" className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full text-primary hover:bg-primary hover:text-white transition-colors">
@@ -289,13 +290,7 @@ const Contato = () => {
             Nossa Localização
           </h2>
           <div className="max-w-4xl mx-auto">
-            <div className="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
-              <div className="text-center text-gray-600">
-                <MapPin className="h-12 w-12 mx-auto mb-4" />
-                <p className="text-lg">Mapa Interativo</p>
-                <p className="text-sm">Rua Astolfo Rodrigues, 17 - Araxá/MG</p>
-              </div>
-            </div>
+            <Map />
           </div>
         </div>
       </section>
