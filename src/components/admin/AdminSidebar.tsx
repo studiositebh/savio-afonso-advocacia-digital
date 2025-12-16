@@ -1,4 +1,4 @@
-import { FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search } from "lucide-react";
+import { FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search, Sparkles } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRoles } from "@/hooks/useUserRoles";
@@ -38,6 +38,7 @@ const blogItems: MenuItem[] = [
   { title: "Artigos", url: "/admin/posts?type=article", icon: FileText, roles: ["admin", "cliente_admin", "editor"] },
   { title: "Categorias", url: "/admin/categories", icon: FolderOpen, roles: ["admin", "cliente_admin", "editor"] },
   { title: "Mídia", url: "/admin/media", icon: Image, roles: ["admin", "cliente_admin", "editor", "content_manager"] },
+  { title: "Assinatura IA", url: "/admin/assinatura", icon: Sparkles, roles: ["admin", "cliente_admin", "editor"] },
 ];
 
 export function AdminSidebar() {

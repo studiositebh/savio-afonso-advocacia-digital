@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAISubscription } from '@/hooks/useAISubscription';
+import { AIPlansModal } from '@/components/admin/AIPlansModal';
 
 interface Post {
   id: string;
@@ -21,13 +23,24 @@ interface Post {
 
 export default function Posts() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { toast } = useToast();
+  const { hasActiveSubscription } = useAISubscription();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showPlansModal, setShowPlansModal] = useState(false);
   
   const type = searchParams.get('type') as 'news' | 'article' | null;
   const title = type === 'news' ? 'Notícias' : type === 'article' ? 'Artigos' : 'Posts';
+
+  const handleAIClick = () => {
+    if (hasActiveSubscription()) {
+      navigate('/admin/posts/ai');
+    } else {
+      setShowPlansModal(true);
+    }
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -93,12 +106,20 @@ export default function Posts() {
             Gerencie {title.toLowerCase()} do site
           </p>
         </div>
-        <Link to={`/admin/posts/new${type ? `?type=${type}` : ''}`}>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Novo {type === 'news' ? 'Notícia' : type === 'article' ? 'Artigo' : 'Post'}
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          {type === 'news' && (
+            <Button variant="default" onClick={handleAIClick} className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Nova Notícia com IA
+            </Button>
+          )}
+          <Link to={`/admin/posts/new${type ? `?type=${type}` : ''}`}>
+            <Button variant="outline">
+              <Plus className="mr-2 h-4 w-4" />
+              {type === 'news' ? 'Nova Notícia (Manual)' : type === 'article' ? 'Novo Artigo' : 'Novo Post'}
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex items-center space-x-2">
@@ -189,6 +210,12 @@ export default function Posts() {
           ))}
         </div>
       )}
+
+      <AIPlansModal
+        open={showPlansModal}
+        onOpenChange={setShowPlansModal}
+        reason="no_subscription"
+      />
     </div>
   );
 }

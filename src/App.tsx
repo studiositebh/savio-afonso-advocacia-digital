@@ -29,6 +29,8 @@ import Leads from "./pages/admin/Leads";
 import Settings from "./pages/admin/Settings";
 import SEO from "./pages/admin/SEO";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AIPostWizard from "./pages/admin/AIPostWizard";
+import Subscription from "./pages/admin/Subscription";
 
 const queryClient = new QueryClient();
 
@@ -78,7 +80,9 @@ const App = () => (
                     <Route path="/seo" element={<SEO />} />
                     <Route path="/posts" element={<Posts />} />
                     <Route path="/posts/new" element={<PostForm />} />
+                    <Route path="/posts/ai" element={<AIPostWizard />} />
                     <Route path="/posts/:id" element={<PostForm />} />
+                    <Route path="/assinatura" element={<Subscription />} />
                   </Routes>
                 </AdminLayout>
               </PrivateRoute>

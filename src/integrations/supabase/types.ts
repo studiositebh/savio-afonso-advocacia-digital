@@ -14,6 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_generations: {
+        Row: {
+          created_at: string | null
+          id: string
+          inputs_json: Json | null
+          output_json: Json | null
+          published: boolean | null
+          regeneration_count: number | null
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          inputs_json?: Json | null
+          output_json?: Json | null
+          published?: boolean | null
+          regeneration_count?: number | null
+          topic: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          inputs_json?: Json | null
+          output_json?: Json | null
+          published?: boolean | null
+          regeneration_count?: number | null
+          topic?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ai_plans: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          id: string
+          monthly_credits: number
+          name: string
+          price_brl: number
+          stripe_price_id: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          id?: string
+          monthly_credits: number
+          name: string
+          price_brl: number
+          stripe_price_id?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          id?: string
+          monthly_credits?: number
+          name?: string
+          price_brl?: number
+          stripe_price_id?: string | null
+        }
+        Relationships: []
+      }
+      ai_subscriptions: {
+        Row: {
+          created_at: string | null
+          current_period_end: string
+          current_period_start: string
+          id: string
+          plan_id: string
+          provider: string | null
+          provider_customer_id: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          plan_id: string
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          plan_id?: string
+          provider?: string | null
+          provider_customer_id?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "ai_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_usage: {
+        Row: {
+          id: string
+          last_reset_at: string | null
+          period_end: string
+          period_start: string
+          used_credits: number
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          last_reset_at?: string | null
+          period_end?: string
+          period_start?: string
+          used_credits?: number
+          user_id: string
+        }
+        Update: {
+          id?: string
+          last_reset_at?: string | null
+          period_end?: string
+          period_start?: string
+          used_credits?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
