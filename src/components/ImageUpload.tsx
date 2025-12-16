@@ -34,7 +34,7 @@ export function ImageUpload({ value, onChange, label = "Imagem" }: ImageUploadPr
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}.${fileExt}`;
-      const filePath = `uploads/${fileName}`;
+      const filePath = `${user.id}/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('media')
