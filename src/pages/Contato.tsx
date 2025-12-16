@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -15,10 +15,17 @@ const Contato = () => {
     email: '',
     telefone: '',
     assunto: '',
-    mensagem: ''
+    mensagem: '',
+    website: '', // Honeypot field
   });
+  const [formTimestamp, setFormTimestamp] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  // Set timestamp when form loads (for bot detection)
+  useEffect(() => {
+    setFormTimestamp(Date.now());
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -59,11 +66,25 @@ const Contato = () => {
       return;
     }
 
+    // Phone validation (basic)
+    const phoneClean = formData.telefone.replace(/\D/g, '');
+    if (phoneClean.length < 10 || phoneClean.length > 11) {
+      toast({
+        title: "Telefone inválido",
+        description: "Por favor, insira um telefone válido com DDD.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const { data, error } = await supabase.functions.invoke('send-email', {
-        body: formData
+        body: {
+          ...formData,
+          timestamp: formTimestamp, // For bot detection
+        }
       });
 
       if (error) throw error;
@@ -79,16 +100,28 @@ const Contato = () => {
         email: '',
         telefone: '',
         assunto: '',
-        mensagem: ''
+        mensagem: '',
+        website: '',
       });
+      setFormTimestamp(Date.now());
 
-    } catch (error) {
-      console.error('Erro ao enviar email:', error);
-      toast({
-        title: "Erro ao enviar mensagem",
-        description: "Tente novamente ou entre em contato por telefone.",
-        variant: "destructive"
-      });
+    } catch (error: any) {
+      console.error('Erro ao enviar:', error);
+      
+      // Check for rate limiting
+      if (error.message?.includes('429') || error.message?.includes('Muitas tentativas')) {
+        toast({
+          title: "Aguarde um momento",
+          description: "Muitas tentativas. Por favor, aguarde um minuto antes de tentar novamente.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Erro ao enviar mensagem",
+          description: "Tente novamente ou entre em contato por telefone.",
+          variant: "destructive"
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -210,6 +243,20 @@ const Contato = () => {
                   </h2>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Honeypot field - hidden from users, visible to bots */}
+                    <div className="absolute -left-[9999px]" aria-hidden="true">
+                      <Label htmlFor="website">Website</Label>
+                      <Input
+                        id="website"
+                        name="website"
+                        type="text"
+                        value={formData.website}
+                        onChange={handleInputChange}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <Label htmlFor="nome">Nome Completo *</Label>
@@ -221,6 +268,7 @@ const Contato = () => {
                           placeholder="Seu nome completo"
                           className="mt-1"
                           required
+                          maxLength={100}
                         />
                       </div>
                       <div>
@@ -234,6 +282,7 @@ const Contato = () => {
                           placeholder="seu@email.com"
                           className="mt-1"
                           required
+                          maxLength={255}
                         />
                       </div>
                     </div>
@@ -249,6 +298,7 @@ const Contato = () => {
                         placeholder="(00) 00000-0000"
                         className="mt-1"
                         required
+                        maxLength={20}
                       />
                     </div>
 
@@ -282,6 +332,7 @@ const Contato = () => {
                         rows={5}
                         className="mt-1"
                         required
+                        maxLength={5000}
                       />
                     </div>
 
