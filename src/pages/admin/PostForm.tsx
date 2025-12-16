@@ -40,6 +40,19 @@ export default function PostForm() {
   const { user } = useAuth();
   const quillRef = useRef<ReactQuill>(null);
   
+  // Refs para evitar recriação do modules
+  const userRef = useRef(user);
+  const toastRef = useRef(toast);
+  
+  // Atualizar refs quando valores mudarem
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+  
+  useEffect(() => {
+    toastRef.current = toast;
+  }, [toast]);
+  
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -59,7 +72,7 @@ export default function PostForm() {
   const isEdit = !!id;
   const title = isEdit ? 'Editar Post' : 'Novo Post';
 
-  // Quill modules configuration with image handler inside
+  // Quill modules - criado apenas uma vez
   const modules = useMemo(() => {
     const imageHandler = () => {
       const input = document.createElement('input');
@@ -69,10 +82,10 @@ export default function PostForm() {
 
       input.onchange = async () => {
         const file = input.files?.[0];
-        if (!file || !user) return;
+        if (!file || !userRef.current) return;
 
         if (!file.type.startsWith('image/')) {
-          toast({
+          toastRef.current({
             title: "Tipo de arquivo inválido",
             description: "Por favor, selecione apenas arquivos de imagem.",
             variant: "destructive",
@@ -81,7 +94,7 @@ export default function PostForm() {
         }
 
         if (file.size > 5 * 1024 * 1024) {
-          toast({
+          toastRef.current({
             title: "Arquivo muito grande",
             description: "Por favor, selecione uma imagem com menos de 5MB.",
             variant: "destructive",
@@ -92,7 +105,7 @@ export default function PostForm() {
         try {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}.${fileExt}`;
-          const filePath = `${user.id}/${fileName}`;
+          const filePath = `${userRef.current.id}/${fileName}`;
 
           const { error: uploadError } = await supabase.storage
             .from('media')
@@ -111,9 +124,9 @@ export default function PostForm() {
             quill.setSelection(range.index + 1, 0);
           }
 
-          toast({ title: "Imagem inserida com sucesso!" });
+          toastRef.current({ title: "Imagem inserida com sucesso!" });
         } catch (error: any) {
-          toast({
+          toastRef.current({
             title: "Erro ao enviar imagem",
             description: error.message,
             variant: "destructive",
@@ -139,7 +152,7 @@ export default function PostForm() {
         }
       }
     };
-  }, [user, toast]);
+  }, []);
 
   useEffect(() => {
     fetchCategories();
