@@ -33,6 +33,7 @@ import SEO from "./pages/admin/SEO";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AIPostWizard from "./pages/admin/AIPostWizard";
 import Subscription from "./pages/admin/Subscription";
+import Categories from "./pages/admin/Categories";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => (
                     <Route path="/posts/ai" element={<AIPostWizard />} />
                     <Route path="/posts/:id" element={<PostForm />} />
                     <Route path="/assinatura" element={<Subscription />} />
+                    <Route path="/categories" element={<Categories />} />
                   </Routes>
                 </AdminLayout>
               </PrivateRoute>
