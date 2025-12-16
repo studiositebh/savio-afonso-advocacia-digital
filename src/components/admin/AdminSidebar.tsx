@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Home, FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, Users, MessageSquare, Settings, Search } from "lucide-react";
+import { FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -20,8 +19,8 @@ const cmsItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Conteúdos", url: "/admin/conteudos", icon: FileText },
   { title: "Áreas de Atuação", url: "/admin/areas-de-atuacao", icon: Briefcase },
-  { title: "Equipe", url: "/admin/equipe", icon: Users },
   { title: "Leads", url: "/admin/leads", icon: MessageSquare },
+  { title: "Usuários", url: "/admin/usuarios", icon: UserCog },
   { title: "Configurações", url: "/admin/configuracoes", icon: Settings },
   { title: "SEO", url: "/admin/seo", icon: Search },
 ];
@@ -51,6 +50,13 @@ export function AdminSidebar() {
     <Sidebar
       collapsible="icon"
     >
+      <div className="p-4 flex items-center justify-center border-b">
+        <img 
+          src="/lovable-uploads/ea012dd9-4d66-4596-95af-836883f5642c.png" 
+          alt="Logo" 
+          className={state === "expanded" ? "h-12" : "h-8"}
+        />
+      </div>
       <SidebarTrigger className="m-2 self-end" />
 
       <SidebarContent>
