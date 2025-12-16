@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, FileText, Newspaper, FolderOpen, Image, LogOut } from "lucide-react";
+import { Home, FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, Users, MessageSquare, Settings, Search } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import {
@@ -16,8 +16,17 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
-const items = [
-  { title: "Dashboard", url: "/admin", icon: Home },
+const cmsItems = [
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Conteúdos", url: "/admin/conteudos", icon: FileText },
+  { title: "Áreas de Atuação", url: "/admin/areas-de-atuacao", icon: Briefcase },
+  { title: "Equipe", url: "/admin/equipe", icon: Users },
+  { title: "Leads", url: "/admin/leads", icon: MessageSquare },
+  { title: "Configurações", url: "/admin/configuracoes", icon: Settings },
+  { title: "SEO", url: "/admin/seo", icon: Search },
+];
+
+const blogItems = [
   { title: "Notícias", url: "/admin/posts?type=news", icon: Newspaper },
   { title: "Artigos", url: "/admin/posts?type=article", icon: FileText },
   { title: "Categorias", url: "/admin/categories", icon: FolderOpen },
@@ -46,11 +55,28 @@ export function AdminSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Painel Administrativo</SidebarGroupLabel>
-
+          <SidebarGroupLabel>CMS</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
+              {cmsItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink to={item.url} end className={getNavCls}>
+                      <item.icon className="mr-2 h-4 w-4" />
+                      {state === "expanded" && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Blog</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {blogItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink to={item.url} end className={getNavCls}>
