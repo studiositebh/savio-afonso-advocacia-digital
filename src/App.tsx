@@ -16,6 +16,7 @@ import Equipe from "./pages/Equipe";
 import Noticias from "./pages/Noticias";
 import NoticiaDetalhes from "./pages/NoticiaDetalhes";
 import Artigos from "./pages/Artigos";
+import ArtigoDetalhes from "./pages/ArtigoDetalhes";
 import Projetos from "./pages/Projetos";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
@@ -59,6 +60,7 @@ const App = () => (
                      <Route path="/noticias" element={<Noticias />} />
                      <Route path="/noticias/:id" element={<NoticiaDetalhes />} />
                      <Route path="/artigos" element={<Artigos />} />
+                     <Route path="/artigos/:id" element={<ArtigoDetalhes />} />
                      <Route path="/projetos" element={<Projetos />} />
                      <Route path="/contato" element={<Contato />} />
                     <Route path="*" element={<NotFound />} />
