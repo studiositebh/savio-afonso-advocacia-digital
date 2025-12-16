@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Building, FileText, Users, Globe, Scale, Shield, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import SEOHead from '@/components/SEOHead';
 
 const Home = () => {
   const areas = [
@@ -39,6 +40,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Advogado Empresarial em Araxá e Belo Horizonte | Sávio Afonso Advocacia"
+        description="Escritório de advocacia empresarial em Araxá e Belo Horizonte. Especialistas em direito societário, tributário, trabalhista e compliance. +30 anos de experiência."
+        canonical="https://savioadv.com.br/"
+      />
       {/* Hero Section */}
       <section className="relative pt-[202px] pb-44 bg-cover bg-center" style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/lovable-uploads/a3a3b309-519e-49c2-b6c8-739455ac6dce.png')`

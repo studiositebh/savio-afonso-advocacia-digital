@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import SEOHead from '@/components/SEOHead';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -129,6 +130,11 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead 
+        title="Contato | Advogado Empresarial em Araxá e BH | Sávio Afonso"
+        description="Entre em contato com nosso escritório de advocacia em Araxá e Belo Horizonte. Agende sua consulta jurídica empresarial. Tel: (34) 3438-0277 | WhatsApp: (31) 99974-0277"
+        canonical="https://savioadv.com.br/contato"
+      />
       {/* Hero Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
@@ -136,11 +142,11 @@ const Contato = () => {
             <div className="w-16 h-1 bg-primary"></div>
           </div>
           <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Fale com o Escritório
+            Contato - Advogado Empresarial em Araxá e Belo Horizonte
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Entre em contato para agendar uma consulta ou obter mais informações
-            sobre nossos serviços jurídicos especializados.
+            Agende uma consulta com nossos advogados especializados em direito empresarial. 
+            Atendemos empresas em Araxá, Belo Horizonte e região.
           </p>
         </div>
       </section>

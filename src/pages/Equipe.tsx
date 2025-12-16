@@ -2,10 +2,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Linkedin, Mail } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
 const Equipe = () => {
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead 
+        title="Equipe de Advogados | Escritório em Araxá, BH e São Paulo | Sávio Afonso"
+        description="Conheça nossa equipe de advogados especializados em direito empresarial. Escritórios em Araxá, Belo Horizonte e São Paulo. +30 anos de experiência."
+        canonical="https://savioadv.com.br/equipe"
+      />
       {/* Hero Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
@@ -13,11 +19,11 @@ const Equipe = () => {
             <div className="w-16 h-1 bg-primary"></div>
           </div>
           <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Nossa Equipe
+            Equipe de Advogados Empresariais - Araxá, BH e São Paulo
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Profissionais especializados e experientes, comprometidos em oferecer 
-            as melhores soluções jurídicas empresariais.
+            Profissionais especializados em direito empresarial, com experiência 
+            em grandes operações societárias, tributárias e trabalhistas em Minas Gerais e São Paulo.
           </p>
         </div>
       </section>

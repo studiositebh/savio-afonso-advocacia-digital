@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
+import { MapPin, Mail, Linkedin, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -13,8 +13,8 @@ const Footer = () => {
               className="h-12 mb-4 brightness-0 invert"
             />
             <p className="text-gray-400 mb-4">
-              Advocacia empresarial especializada com mais de 30 anos de
-              experiência no mercado jurídico.
+              Escritório de advocacia empresarial em Araxá e Belo Horizonte com mais de 30 anos de
+              experiência em direito societário, tributário e trabalhista.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.linkedin.com/in/savio-afonso-de-oliveira-1ab555120" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
@@ -51,26 +51,31 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">Contato</h4>
-            <ul className="space-y-3">
+            <h4 className="text-lg font-semibold mb-4">Escritórios</h4>
+            <ul className="space-y-4">
               <li className="flex items-start">
-                <MapPin className="h-4 w-4 mr-3 mt-1 text-primary" />
-                <span className="text-gray-400">
-                  Rua Astolfo Rodrigues, 17<br />
-                  Centro, Araxá - MG<br />
-                  CEP: 38183-108
-                </span>
+                <MapPin className="h-4 w-4 mr-3 mt-1 text-primary flex-shrink-0" />
+                <div className="text-gray-400">
+                  <strong className="text-white">Araxá/MG</strong><br />
+                  Rua Astolfo Rodrigues, 17, Centro<br />
+                  CEP: 38183-108<br />
+                  <a href="tel:+553434380277" className="hover:text-white transition-colors">Tel: (34) 3438-0277</a>
+                </div>
               </li>
               <li className="flex items-start">
-                <Phone className="h-4 w-4 mr-3 mt-1 text-primary" />
-                <span className="text-gray-400">
-                  +55 (34) 3438-0277<br />
-                  +55 (31) 99974-0277
-                </span>
+                <MapPin className="h-4 w-4 mr-3 mt-1 text-primary flex-shrink-0" />
+                <div className="text-gray-400">
+                  <strong className="text-white">Belo Horizonte/MG</strong><br />
+                  Rua Afonso Alves Branco, 261, Serra<br />
+                  CEP: 30240-160<br />
+                  <a href="tel:+5531999740277" className="hover:text-white transition-colors">Tel: (31) 99974-0277</a>
+                </div>
               </li>
               <li className="flex items-start">
-                <Mail className="h-4 w-4 mr-3 mt-1 text-primary" />
-                <span className="text-gray-400">juridico@savioadv.com.br</span>
+                <Mail className="h-4 w-4 mr-3 mt-1 text-primary flex-shrink-0" />
+                <a href="mailto:juridico@savioadv.com.br" className="text-gray-400 hover:text-white transition-colors">
+                  juridico@savioadv.com.br
+                </a>
               </li>
             </ul>
           </div>
