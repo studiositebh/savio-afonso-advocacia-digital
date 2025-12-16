@@ -1,4 +1,4 @@
-import { FileText, Newspaper, FolderOpen, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search, Sparkles } from "lucide-react";
+import { FileText, Newspaper, FolderOpen, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search, Sparkles, ExternalLink } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRoles } from "@/hooks/useUserRoles";
@@ -114,7 +114,16 @@ export function AdminSidebar() {
           </SidebarGroup>
         )}
 
-        <div className="mt-auto p-4">
+        <div className="mt-auto p-4 space-y-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => window.open('/', '_blank')}
+            className="w-full"
+          >
+            <ExternalLink className="mr-2 h-4 w-4" />
+            {state === "expanded" && <span>Ver Site</span>}
+          </Button>
           <Button
             variant="outline"
             size="sm"
