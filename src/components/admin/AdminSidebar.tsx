@@ -75,12 +75,12 @@ export function AdminSidebar() {
       <SidebarTrigger className="m-2 self-end" />
 
       <SidebarContent>
-        {filteredCmsItems.length > 0 && (
+        {filteredBlogItems.length > 0 && (
           <SidebarGroup>
-            <SidebarGroupLabel>CMS</SidebarGroupLabel>
+            <SidebarGroupLabel>Blog</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {filteredCmsItems.map((item) => (
+                {filteredBlogItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink to={item.url} end className={getNavCls}>
@@ -95,12 +95,12 @@ export function AdminSidebar() {
           </SidebarGroup>
         )}
 
-        {filteredBlogItems.length > 0 && (
+        {filteredCmsItems.length > 0 && (
           <SidebarGroup>
-            <SidebarGroupLabel>Blog</SidebarGroupLabel>
+            <SidebarGroupLabel>CMS</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {filteredBlogItems.map((item) => (
+                {filteredCmsItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink to={item.url} end className={getNavCls}>

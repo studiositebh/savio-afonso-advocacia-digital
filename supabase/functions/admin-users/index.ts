@@ -181,7 +181,7 @@ serve(async (req) => {
       }
 
       case "create": {
-        const { email, password, name, initialRoles } = params;
+        const { email, password, firstName, lastName, initialRoles } = params;
         
         if (!email || !password) {
           return new Response(JSON.stringify({ error: "Email e senha são obrigatórios" }), {
@@ -197,12 +197,19 @@ serve(async (req) => {
           });
         }
 
+        // Build full name from first and last name
+        const fullName = [firstName, lastName].filter(Boolean).join(" ").trim();
+
         // Create user
         const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
           email,
           password,
           email_confirm: true,
-          user_metadata: { name: name || "" },
+          user_metadata: { 
+            name: fullName,
+            first_name: firstName || "",
+            last_name: lastName || "",
+          },
         });
 
         if (createError) {

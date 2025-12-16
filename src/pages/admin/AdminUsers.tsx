@@ -72,11 +72,11 @@ export default function AdminUsers() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editForm, setEditForm] = useState({ name: "", email: "" });
-  const [createForm, setCreateForm] = useState({ name: "", email: "", password: "" });
+  const [createForm, setCreateForm] = useState({ firstName: "", lastName: "", email: "", password: "" });
   const [createRoles, setCreateRoles] = useState<string[]>([]);
   const [newPassword, setNewPassword] = useState("");
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
-  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+  const [errors, setErrors] = useState({ name: "", firstName: "", lastName: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [showCreatePassword, setShowCreatePassword] = useState(false);
 
@@ -108,7 +108,7 @@ export default function AdminUsers() {
   };
 
   const validateEditForm = () => {
-    const newErrors = { name: "", email: "", password: "" };
+    const newErrors = { name: "", firstName: "", lastName: "", email: "", password: "" };
     let isValid = true;
 
     try {
@@ -143,14 +143,14 @@ export default function AdminUsers() {
   const openEditDialog = (user: User) => {
     setSelectedUser(user);
     setEditForm({ name: user.name, email: user.email });
-    setErrors({ name: "", email: "", password: "" });
+    setErrors({ name: "", firstName: "", lastName: "", email: "", password: "" });
     setEditDialogOpen(true);
   };
 
   const openPasswordDialog = (user: User) => {
     setSelectedUser(user);
     setNewPassword("");
-    setErrors({ name: "", email: "", password: "" });
+    setErrors({ name: "", firstName: "", lastName: "", email: "", password: "" });
     setPasswordDialogOpen(true);
   };
 
@@ -295,15 +295,15 @@ export default function AdminUsers() {
   };
 
   const openCreateDialog = () => {
-    setCreateForm({ name: "", email: "", password: "" });
+    setCreateForm({ firstName: "", lastName: "", email: "", password: "" });
     setCreateRoles([]);
-    setErrors({ name: "", email: "", password: "" });
+    setErrors({ name: "", firstName: "", lastName: "", email: "", password: "" });
     setShowCreatePassword(false);
     setCreateDialogOpen(true);
   };
 
   const validateCreateForm = () => {
-    const newErrors = { name: "", email: "", password: "" };
+    const newErrors = { name: "", firstName: "", lastName: "", email: "", password: "" };
     let isValid = true;
 
     try {
@@ -334,7 +334,8 @@ export default function AdminUsers() {
           action: "create",
           email: createForm.email,
           password: createForm.password,
-          name: createForm.name,
+          firstName: createForm.firstName,
+          lastName: createForm.lastName,
           initialRoles: createRoles,
         },
       });
@@ -688,14 +689,25 @@ export default function AdminUsers() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="create-name">Nome</Label>
-              <Input
-                id="create-name"
-                value={createForm.name}
-                onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })}
-                placeholder="Nome do usuário"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="create-firstName">Nome</Label>
+                <Input
+                  id="create-firstName"
+                  value={createForm.firstName}
+                  onChange={(e) => setCreateForm({ ...createForm, firstName: e.target.value })}
+                  placeholder="Nome"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="create-lastName">Sobrenome</Label>
+                <Input
+                  id="create-lastName"
+                  value={createForm.lastName}
+                  onChange={(e) => setCreateForm({ ...createForm, lastName: e.target.value })}
+                  placeholder="Sobrenome"
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="create-email">Email *</Label>

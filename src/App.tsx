@@ -20,6 +20,7 @@ import Projetos from "./pages/Projetos";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/admin/Login";
+import ResetPassword from "./pages/admin/ResetPassword";
 import Dashboard from "./pages/admin/Dashboard";
 import Posts from "./pages/admin/Posts";
 import PostForm from "./pages/admin/PostForm";
@@ -45,6 +46,7 @@ const App = () => (
           <Routes>
             {/* Public routes */}
             <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin/reset-password" element={<ResetPassword />} />
             <Route path="/*" element={
               <div className="min-h-screen flex flex-col">
                 <Header />
