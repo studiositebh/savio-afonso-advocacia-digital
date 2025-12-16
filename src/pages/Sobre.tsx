@@ -2,10 +2,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Shield, Handshake } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
 const Sobre = () => {
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead 
+        title="Sobre o Escritório | Advogado Empresarial em Araxá e BH | Sávio Afonso"
+        description="Conheça o escritório Sávio Afonso Advocacia. Mais de 30 anos de experiência em direito empresarial em Minas Gerais. Escritório em Araxá e Belo Horizonte."
+        canonical="https://savioadv.com.br/sobre"
+      />
       {/* Hero Section with Images */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -14,7 +20,7 @@ const Sobre = () => {
               <div className="w-16 h-1 bg-primary"></div>
             </div>
             <h1 className="text-4xl font-bold mb-6 text-gray-800">
-              Sobre Nós
+              Escritório de Advocacia Empresarial em Araxá e Belo Horizonte
             </h1>
           </div>
           

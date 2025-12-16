@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, ExternalLink, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+import SEOHead from '@/components/SEOHead';
 
 interface Noticia {
   id: string;
@@ -91,6 +92,11 @@ const Noticias = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead 
+        title="Notícias Jurídicas Empresariais | Advogado em Araxá e BH | Sávio Afonso"
+        description="Acompanhe notícias sobre direito tributário, societário, trabalhista e compliance empresarial. Informações jurídicas para empresas em Minas Gerais."
+        canonical="https://savioadv.com.br/noticias"
+      />
       {/* Hero Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
@@ -98,11 +104,11 @@ const Noticias = () => {
             <div className="w-16 h-1 bg-primary"></div>
           </div>
           <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Notícias Jurídicas
+            Notícias de Direito Empresarial em Minas Gerais
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Acompanhe as principais notícias e atualizações do mundo jurídico 
-            empresarial que podem impactar seus negócios.
+            Atualizações sobre legislação tributária, societária, trabalhista e compliance 
+            que impactam empresas em Araxá, Belo Horizonte e região.
           </p>
         </div>
       </section>

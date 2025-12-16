@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building, FileText, Scale, Users, Globe, Shield, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
 const Areas = () => {
   const [expandedArea, setExpandedArea] = useState<number | null>(null);
@@ -51,6 +52,11 @@ const Areas = () => {
 
   return (
     <div className="min-h-screen pt-20">
+      <SEOHead 
+        title="Áreas de Atuação | Advogado Societário, Tributário e Trabalhista em MG"
+        description="Advogado especialista em direito societário, tributário, trabalhista empresarial, compliance e M&A em Araxá e Belo Horizonte. Consultoria jurídica para empresas em Minas Gerais."
+        canonical="https://savioadv.com.br/areas"
+      />
       {/* Hero Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 text-center">
@@ -58,11 +64,11 @@ const Areas = () => {
             <div className="w-16 h-1 bg-primary"></div>
           </div>
           <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Áreas de Atuação
+            Áreas de Atuação - Advocacia Empresarial em Araxá e BH
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Oferecemos serviços jurídicos especializados nas principais áreas do
-            Direito Empresarial, com foco em soluções estratégicas e resultados efetivos.
+            Escritório de advocacia especializado em direito empresarial em Minas Gerais. 
+            Oferecemos consultoria jurídica em societário, tributário, trabalhista e compliance.
           </p>
         </div>
       </section>
