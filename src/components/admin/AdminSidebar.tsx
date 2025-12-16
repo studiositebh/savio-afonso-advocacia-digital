@@ -1,6 +1,7 @@
 import { FileText, Newspaper, FolderOpen, Image, LogOut, LayoutDashboard, Briefcase, UserCog, MessageSquare, Settings, Search } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import {
   Sidebar,
   SidebarContent,
@@ -15,36 +16,49 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 
-const cmsItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Conteúdos", url: "/admin/conteudos", icon: FileText },
-  { title: "Áreas de Atuação", url: "/admin/areas-de-atuacao", icon: Briefcase },
-  { title: "Leads", url: "/admin/leads", icon: MessageSquare },
-  { title: "Usuários", url: "/admin/usuarios", icon: UserCog },
-  { title: "Configurações", url: "/admin/configuracoes", icon: Settings },
-  { title: "SEO", url: "/admin/seo", icon: Search },
+interface MenuItem {
+  title: string;
+  url: string;
+  icon: any;
+  roles: string[];
+}
+
+const cmsItems: MenuItem[] = [
+  { title: "Dashboard", url: "/admin", icon: LayoutDashboard, roles: ["admin", "cliente_admin", "editor", "content_manager"] },
+  { title: "Conteúdos", url: "/admin/conteudos", icon: FileText, roles: ["admin", "cliente_admin", "content_manager"] },
+  { title: "Áreas de Atuação", url: "/admin/areas-de-atuacao", icon: Briefcase, roles: ["admin", "cliente_admin", "content_manager"] },
+  { title: "Leads", url: "/admin/leads", icon: MessageSquare, roles: ["admin", "cliente_admin", "content_manager"] },
+  { title: "Usuários", url: "/admin/usuarios", icon: UserCog, roles: ["admin", "cliente_admin"] },
+  { title: "Configurações", url: "/admin/configuracoes", icon: Settings, roles: ["admin", "cliente_admin", "content_manager"] },
+  { title: "SEO", url: "/admin/seo", icon: Search, roles: ["admin", "cliente_admin", "content_manager"] },
 ];
 
-const blogItems = [
-  { title: "Notícias", url: "/admin/posts?type=news", icon: Newspaper },
-  { title: "Artigos", url: "/admin/posts?type=article", icon: FileText },
-  { title: "Categorias", url: "/admin/categories", icon: FolderOpen },
-  { title: "Mídia", url: "/admin/media", icon: Image },
+const blogItems: MenuItem[] = [
+  { title: "Notícias", url: "/admin/posts?type=news", icon: Newspaper, roles: ["admin", "cliente_admin", "editor"] },
+  { title: "Artigos", url: "/admin/posts?type=article", icon: FileText, roles: ["admin", "cliente_admin", "editor"] },
+  { title: "Categorias", url: "/admin/categories", icon: FolderOpen, roles: ["admin", "cliente_admin", "editor"] },
+  { title: "Mídia", url: "/admin/media", icon: Image, roles: ["admin", "cliente_admin", "editor", "content_manager"] },
 ];
 
 export function AdminSidebar() {
   const { state } = useSidebar();
   const { signOut } = useAuth();
+  const { hasAnyRole } = useUserRoles();
   const location = useLocation();
   const currentPath = location.pathname + location.search;
 
-  const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-accent text-accent-foreground font-medium" : "hover:bg-accent/50";
 
   const handleSignOut = async () => {
     await signOut();
   };
+
+  const filterItemsByRole = (items: MenuItem[]) => 
+    items.filter(item => hasAnyRole(item.roles));
+
+  const filteredCmsItems = filterItemsByRole(cmsItems);
+  const filteredBlogItems = filterItemsByRole(blogItems);
 
   return (
     <Sidebar
@@ -60,41 +74,45 @@ export function AdminSidebar() {
       <SidebarTrigger className="m-2 self-end" />
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>CMS</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {cmsItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="mr-2 h-4 w-4" />
-                      {state === "expanded" && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {filteredCmsItems.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>CMS</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {filteredCmsItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink to={item.url} end className={getNavCls}>
+                        <item.icon className="mr-2 h-4 w-4" />
+                        {state === "expanded" && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Blog</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {blogItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="mr-2 h-4 w-4" />
-                      {state === "expanded" && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {filteredBlogItems.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Blog</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {filteredBlogItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink to={item.url} end className={getNavCls}>
+                        <item.icon className="mr-2 h-4 w-4" />
+                        {state === "expanded" && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
 
         <div className="mt-auto p-4">
           <Button

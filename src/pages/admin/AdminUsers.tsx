@@ -37,7 +37,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2, Shield, Loader2, ShieldPlus, ShieldMinus } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Pencil, Trash2, Shield, Loader2, Key, Users } from "lucide-react";
 import { z } from "zod";
 
 interface User {
@@ -49,19 +50,30 @@ interface User {
   roles: string[];
 }
 
+interface RoleInfo {
+  name: string;
+  description: string;
+}
+
 const emailSchema = z.string().email("Email inválido");
 const nameSchema = z.string().min(1, "Nome é obrigatório");
+const passwordSchema = z.string().min(6, "Senha deve ter pelo menos 6 caracteres");
 
 export default function AdminUsers() {
   const { toast } = useToast();
   const [users, setUsers] = useState<User[]>([]);
+  const [rolesInfo, setRolesInfo] = useState<Record<string, RoleInfo>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
+  const [rolesDialogOpen, setRolesDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editForm, setEditForm] = useState({ name: "", email: "" });
-  const [errors, setErrors] = useState({ name: "", email: "" });
+  const [newPassword, setNewPassword] = useState("");
+  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
+  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
 
   useEffect(() => {
     fetchUsers();
@@ -78,6 +90,7 @@ export default function AdminUsers() {
 
       if (response.error) throw response.error;
       setUsers(response.data.users || []);
+      setRolesInfo(response.data.rolesInfo || {});
     } catch (error: any) {
       toast({
         title: "Erro ao carregar usuários",
@@ -89,8 +102,8 @@ export default function AdminUsers() {
     }
   };
 
-  const validateForm = () => {
-    const newErrors = { name: "", email: "" };
+  const validateEditForm = () => {
+    const newErrors = { name: "", email: "", password: "" };
     let isValid = true;
 
     try {
@@ -111,15 +124,39 @@ export default function AdminUsers() {
     return isValid;
   };
 
+  const validatePassword = () => {
+    try {
+      passwordSchema.parse(newPassword);
+      setErrors(prev => ({ ...prev, password: "" }));
+      return true;
+    } catch (e: any) {
+      setErrors(prev => ({ ...prev, password: e.errors[0].message }));
+      return false;
+    }
+  };
+
   const openEditDialog = (user: User) => {
     setSelectedUser(user);
     setEditForm({ name: user.name, email: user.email });
-    setErrors({ name: "", email: "" });
+    setErrors({ name: "", email: "", password: "" });
     setEditDialogOpen(true);
   };
 
+  const openPasswordDialog = (user: User) => {
+    setSelectedUser(user);
+    setNewPassword("");
+    setErrors({ name: "", email: "", password: "" });
+    setPasswordDialogOpen(true);
+  };
+
+  const openRolesDialog = (user: User) => {
+    setSelectedUser(user);
+    setSelectedRoles([...user.roles]);
+    setRolesDialogOpen(true);
+  };
+
   const handleSave = async () => {
-    if (!validateForm() || !selectedUser) return;
+    if (!validateEditForm() || !selectedUser) return;
 
     setSaving(true);
     try {
@@ -140,6 +177,64 @@ export default function AdminUsers() {
     } catch (error: any) {
       toast({
         title: "Erro ao atualizar usuário",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    if (!validatePassword() || !selectedUser) return;
+
+    setSaving(true);
+    try {
+      const response = await supabase.functions.invoke("admin-users", {
+        body: {
+          action: "updatePassword",
+          userId: selectedUser.id,
+          password: newPassword,
+        },
+      });
+
+      if (response.error) throw response.error;
+
+      toast({ title: "Senha alterada com sucesso!" });
+      setPasswordDialogOpen(false);
+      setNewPassword("");
+    } catch (error: any) {
+      toast({
+        title: "Erro ao alterar senha",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRolesChange = async () => {
+    if (!selectedUser) return;
+
+    setSaving(true);
+    try {
+      const response = await supabase.functions.invoke("admin-users", {
+        body: {
+          action: "setRoles",
+          userId: selectedUser.id,
+          newRoles: selectedRoles,
+        },
+      });
+
+      if (response.error) throw response.error;
+
+      toast({ title: "Permissões atualizadas com sucesso!" });
+      setRolesDialogOpen(false);
+      fetchUsers();
+    } catch (error: any) {
+      toast({
+        title: "Erro ao atualizar permissões",
         description: error.message,
         variant: "destructive",
       });
@@ -178,30 +273,25 @@ export default function AdminUsers() {
     }
   };
 
-  const toggleAdminRole = async (user: User) => {
-    const isAdmin = user.roles.includes("admin") || user.roles.includes("cliente_admin");
-    const action = isAdmin ? "removeRole" : "addRole";
-    const role = "cliente_admin";
+  const toggleRole = (role: string) => {
+    setSelectedRoles(prev => 
+      prev.includes(role) 
+        ? prev.filter(r => r !== role)
+        : [...prev, role]
+    );
+  };
 
-    try {
-      const response = await supabase.functions.invoke("admin-users", {
-        body: { action, userId: user.id, role },
-      });
-
-      if (response.error) throw response.error;
-
-      toast({ 
-        title: isAdmin 
-          ? "Permissão de administrador removida" 
-          : "Permissão de administrador concedida" 
-      });
-      fetchUsers();
-    } catch (error: any) {
-      toast({
-        title: "Erro ao alterar permissão",
-        description: error.message,
-        variant: "destructive",
-      });
+  const getRoleBadgeVariant = (role: string) => {
+    switch (role) {
+      case "admin":
+      case "cliente_admin":
+        return "default";
+      case "editor":
+        return "secondary";
+      case "content_manager":
+        return "outline";
+      default:
+        return "secondary";
     }
   };
 
@@ -222,10 +312,32 @@ export default function AdminUsers() {
         </p>
       </div>
 
+      {/* Roles explanation */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
+            Níveis de Acesso Disponíveis
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {Object.entries(rolesInfo).map(([key, info]) => (
+              <div key={key} className="flex items-start gap-2 p-2 rounded-lg border">
+                <Badge variant={getRoleBadgeVariant(key)} className="mt-0.5">
+                  {info.name}
+                </Badge>
+                <span className="text-sm text-muted-foreground">{info.description}</span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5" />
             Usuários Cadastrados
           </CardTitle>
           <CardDescription>
@@ -245,7 +357,7 @@ export default function AdminUsers() {
                   <TableHead>Email</TableHead>
                   <TableHead>Permissões</TableHead>
                   <TableHead>Último Acesso</TableHead>
-                  <TableHead className="w-[150px]">Ações</TableHead>
+                  <TableHead className="w-[180px]">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -263,9 +375,9 @@ export default function AdminUsers() {
                           user.roles.map((role) => (
                             <Badge 
                               key={role} 
-                              variant={role === "admin" || role === "cliente_admin" ? "default" : "secondary"}
+                              variant={getRoleBadgeVariant(role)}
                             >
-                              {role}
+                              {rolesInfo[role]?.name || role}
                             </Badge>
                           ))
                         )}
@@ -288,21 +400,25 @@ export default function AdminUsers() {
                           variant="ghost"
                           size="icon"
                           onClick={() => openEditDialog(user)}
-                          title="Editar"
+                          title="Editar dados"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => toggleAdminRole(user)}
-                          title={user.roles.includes("admin") || user.roles.includes("cliente_admin") 
-                            ? "Remover admin" 
-                            : "Tornar admin"}
+                          onClick={() => openPasswordDialog(user)}
+                          title="Alterar senha"
                         >
-                          {user.roles.includes("admin") || user.roles.includes("cliente_admin") 
-                            ? <ShieldMinus className="h-4 w-4 text-orange-500" />
-                            : <ShieldPlus className="h-4 w-4 text-green-500" />}
+                          <Key className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => openRolesDialog(user)}
+                          title="Gerenciar permissões"
+                        >
+                          <Shield className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
@@ -365,6 +481,83 @@ export default function AdminUsers() {
               <Button onClick={handleSave} disabled={saving}>
                 {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Salvar
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Password Dialog */}
+      <Dialog open={passwordDialogOpen} onOpenChange={setPasswordDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Alterar Senha</DialogTitle>
+            <DialogDescription>
+              Defina uma nova senha para {selectedUser?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="password">Nova Senha</Label>
+              <Input
+                id="password"
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Mínimo 6 caracteres"
+              />
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password}</p>
+              )}
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setPasswordDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handlePasswordChange} disabled={saving || !newPassword}>
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Alterar Senha
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Roles Dialog */}
+      <Dialog open={rolesDialogOpen} onOpenChange={setRolesDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Gerenciar Permissões</DialogTitle>
+            <DialogDescription>
+              Selecione as permissões para {selectedUser?.email}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {Object.entries(rolesInfo).map(([key, info]) => (
+              <div key={key} className="flex items-start space-x-3 p-3 rounded-lg border">
+                <Checkbox
+                  id={key}
+                  checked={selectedRoles.includes(key)}
+                  onCheckedChange={() => toggleRole(key)}
+                />
+                <div className="flex-1">
+                  <label
+                    htmlFor={key}
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    {info.name}
+                  </label>
+                  <p className="text-xs text-muted-foreground">{info.description}</p>
+                </div>
+              </div>
+            ))}
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setRolesDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleRolesChange} disabled={saving}>
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Salvar Permissões
               </Button>
             </div>
           </div>
