@@ -180,6 +180,64 @@ serve(async (req) => {
         });
       }
 
+      case "create": {
+        const { email, password, name, initialRoles } = params;
+        
+        if (!email || !password) {
+          return new Response(JSON.stringify({ error: "Email e senha são obrigatórios" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+
+        if (password.length < 6) {
+          return new Response(JSON.stringify({ error: "Senha deve ter pelo menos 6 caracteres" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+
+        // Create user
+        const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+          email,
+          password,
+          email_confirm: true,
+          user_metadata: { name: name || "" },
+        });
+
+        if (createError) {
+          console.error("Create user error:", createError);
+          if (createError.message.includes("already been registered")) {
+            return new Response(JSON.stringify({ error: "Este email já está cadastrado" }), {
+              status: 400,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            });
+          }
+          throw createError;
+        }
+
+        // Assign initial roles if provided
+        if (initialRoles && initialRoles.length > 0 && newUser.user) {
+          const rolesToInsert = initialRoles.map((role: string) => ({
+            user_id: newUser.user.id,
+            role: role,
+          }));
+
+          const { error: rolesError } = await supabaseAdmin
+            .from("user_roles")
+            .insert(rolesToInsert);
+          
+          if (rolesError) {
+            console.error("Assign roles error:", rolesError);
+          }
+        }
+
+        console.log("User created:", newUser.user?.id);
+        return new Response(JSON.stringify({ user: newUser.user }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
       default:
         return new Response(JSON.stringify({ error: "Invalid action" }), {
           status: 400,

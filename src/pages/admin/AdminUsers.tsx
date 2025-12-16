@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Pencil, Trash2, Shield, Loader2, Key, Users } from "lucide-react";
+import { Pencil, Trash2, Shield, Loader2, Key, Users, Plus, Eye, EyeOff } from "lucide-react";
 import { z } from "zod";
 
 interface User {
@@ -69,11 +69,16 @@ export default function AdminUsers() {
   const [passwordDialogOpen, setPasswordDialogOpen] = useState(false);
   const [rolesDialogOpen, setRolesDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [editForm, setEditForm] = useState({ name: "", email: "" });
+  const [createForm, setCreateForm] = useState({ name: "", email: "", password: "" });
+  const [createRoles, setCreateRoles] = useState<string[]>([]);
   const [newPassword, setNewPassword] = useState("");
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCreatePassword, setShowCreatePassword] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -281,6 +286,76 @@ export default function AdminUsers() {
     );
   };
 
+  const toggleCreateRole = (role: string) => {
+    setCreateRoles(prev => 
+      prev.includes(role) 
+        ? prev.filter(r => r !== role)
+        : [...prev, role]
+    );
+  };
+
+  const openCreateDialog = () => {
+    setCreateForm({ name: "", email: "", password: "" });
+    setCreateRoles([]);
+    setErrors({ name: "", email: "", password: "" });
+    setShowCreatePassword(false);
+    setCreateDialogOpen(true);
+  };
+
+  const validateCreateForm = () => {
+    const newErrors = { name: "", email: "", password: "" };
+    let isValid = true;
+
+    try {
+      emailSchema.parse(createForm.email);
+    } catch (e: any) {
+      newErrors.email = e.errors[0].message;
+      isValid = false;
+    }
+
+    try {
+      passwordSchema.parse(createForm.password);
+    } catch (e: any) {
+      newErrors.password = e.errors[0].message;
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleCreate = async () => {
+    if (!validateCreateForm()) return;
+
+    setSaving(true);
+    try {
+      const response = await supabase.functions.invoke("admin-users", {
+        body: {
+          action: "create",
+          email: createForm.email,
+          password: createForm.password,
+          name: createForm.name,
+          initialRoles: createRoles,
+        },
+      });
+
+      if (response.error) throw response.error;
+      if (response.data?.error) throw new Error(response.data.error);
+
+      toast({ title: "Usuário criado com sucesso!" });
+      setCreateDialogOpen(false);
+      fetchUsers();
+    } catch (error: any) {
+      toast({
+        title: "Erro ao criar usuário",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const getRoleBadgeVariant = (role: string) => {
     switch (role) {
       case "admin":
@@ -335,14 +410,20 @@ export default function AdminUsers() {
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Usuários Cadastrados
-          </CardTitle>
-          <CardDescription>
-            Lista completa de usuários com suas permissões
-          </CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Usuários Cadastrados
+            </CardTitle>
+            <CardDescription>
+              Lista completa de usuários com suas permissões
+            </CardDescription>
+          </div>
+          <Button onClick={openCreateDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Usuário
+          </Button>
         </CardHeader>
         <CardContent>
           {users.length === 0 ? (
@@ -499,13 +580,23 @@ export default function AdminUsers() {
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="password">Nova Senha</Label>
-              <Input
-                id="password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Mínimo 6 caracteres"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Mínimo 6 caracteres"
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
               {errors.password && (
                 <p className="text-sm text-destructive">{errors.password}</p>
               )}
@@ -586,6 +677,94 @@ export default function AdminUsers() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Create User Dialog */}
+      <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Novo Usuário</DialogTitle>
+            <DialogDescription>
+              Preencha os dados para criar um novo usuário
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="create-name">Nome</Label>
+              <Input
+                id="create-name"
+                value={createForm.name}
+                onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })}
+                placeholder="Nome do usuário"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="create-email">Email *</Label>
+              <Input
+                id="create-email"
+                type="email"
+                value={createForm.email}
+                onChange={(e) => setCreateForm({ ...createForm, email: e.target.value })}
+                placeholder="email@exemplo.com"
+              />
+              {errors.email && (
+                <p className="text-sm text-destructive">{errors.email}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="create-password">Senha *</Label>
+              <div className="relative">
+                <Input
+                  id="create-password"
+                  type={showCreatePassword ? "text" : "password"}
+                  value={createForm.password}
+                  onChange={(e) => setCreateForm({ ...createForm, password: e.target.value })}
+                  placeholder="Mínimo 6 caracteres"
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCreatePassword(!showCreatePassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showCreatePassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label>Permissões iniciais</Label>
+              <div className="grid gap-2 max-h-48 overflow-y-auto">
+                {Object.entries(rolesInfo).map(([key, info]) => (
+                  <div key={key} className="flex items-center space-x-2 p-2 rounded border">
+                    <Checkbox
+                      id={`create-${key}`}
+                      checked={createRoles.includes(key)}
+                      onCheckedChange={() => toggleCreateRole(key)}
+                    />
+                    <label
+                      htmlFor={`create-${key}`}
+                      className="text-sm cursor-pointer flex-1"
+                    >
+                      {info.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setCreateDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleCreate} disabled={saving}>
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Criar Usuário
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
