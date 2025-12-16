@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import { generateSlug } from '@/utils/slug';
 import { Save, ArrowLeft } from 'lucide-react';
 import ReactQuill from 'react-quill';
@@ -36,6 +37,8 @@ export default function PostForm() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const quillRef = useRef<ReactQuill>(null);
   
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -55,6 +58,89 @@ export default function PostForm() {
 
   const isEdit = !!id;
   const title = isEdit ? 'Editar Post' : 'Novo Post';
+
+  // Image handler for Quill editor
+  const imageHandler = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file || !user) return;
+
+      // Validate file
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: "Tipo de arquivo inválido",
+          description: "Por favor, selecione apenas arquivos de imagem.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "Arquivo muito grande",
+          description: "Por favor, selecione uma imagem com menos de 5MB.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      try {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}.${fileExt}`;
+        const filePath = `${user.id}/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('media')
+          .upload(filePath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage
+          .from('media')
+          .getPublicUrl(filePath);
+
+        // Insert image in editor
+        const quill = quillRef.current?.getEditor();
+        if (quill) {
+          const range = quill.getSelection(true);
+          quill.insertEmbed(range.index, 'image', data.publicUrl);
+          quill.setSelection(range.index + 1, 0);
+        }
+
+        toast({ title: "Imagem inserida com sucesso!" });
+      } catch (error: any) {
+        toast({
+          title: "Erro ao enviar imagem",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    };
+  };
+
+  // Quill modules configuration
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        ['link', 'image'],
+        [{ 'align': [] }],
+        ['blockquote', 'code-block'],
+        ['clean']
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    }
+  }), [user]);
 
   useEffect(() => {
     fetchCategories();
@@ -251,9 +337,11 @@ export default function PostForm() {
               </CardHeader>
               <CardContent>
                 <ReactQuill
+                  ref={quillRef}
                   theme="snow"
                   value={formData.content}
                   onChange={(value) => handleInputChange('content', value)}
+                  modules={modules}
                   style={{ height: '300px', marginBottom: '50px' }}
                 />
               </CardContent>
