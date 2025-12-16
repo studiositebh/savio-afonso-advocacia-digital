@@ -94,12 +94,7 @@ const Areas = () => {
                     {/* Expanded Content */}
                     {isExpanded && (
                       <div className="mb-4 animate-in slide-in-from-top-2 duration-300">
-                        <img 
-                          src={area.image} 
-                          alt={area.title}
-                          className="w-full h-48 object-cover rounded-lg mb-4"
-                        />
-                        <p className="text-gray-700 text-sm leading-relaxed">
+                        <p className="text-gray-600 leading-relaxed">
                           {area.detailedInfo}
                         </p>
                       </div>
