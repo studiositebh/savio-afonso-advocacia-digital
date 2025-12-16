@@ -41,6 +41,72 @@ export type Database = {
         }
         Relationships: []
       }
+      home_sections: {
+        Row: {
+          content: Json
+          id: string
+          section_key: string
+          status: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          content?: Json
+          id?: string
+          section_key: string
+          status?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          content?: Json
+          id?: string
+          section_key?: string
+          status?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          message: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          source_page: string | null
+          status: string | null
+          subject: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          source_page?: string | null
+          status?: string | null
+          subject?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          source_page?: string | null
+          status?: string | null
+          subject?: string | null
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           created_at: string
@@ -71,6 +137,39 @@ export type Database = {
           mime_type?: string | null
           original_name?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      page_contents: {
+        Row: {
+          body_richtext: string | null
+          id: string
+          page_key: string
+          seo: Json | null
+          status: string | null
+          title: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          body_richtext?: string | null
+          id?: string
+          page_key: string
+          seo?: Json | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          body_richtext?: string | null
+          id?: string
+          page_key?: string
+          seo?: Json | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
         }
         Relationships: []
       }
@@ -155,6 +254,138 @@ export type Database = {
         }
         Relationships: []
       }
+      practice_areas: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          detailed_description: string | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          short_description: string | null
+          slug: string
+          sort_order: number | null
+          title: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          detailed_description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          short_description?: string | null
+          slug: string
+          sort_order?: number | null
+          title: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          detailed_description?: string | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          short_description?: string | null
+          slug?: string
+          sort_order?: number | null
+          title?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          address: Json | null
+          brand_name: string
+          footer_text: string | null
+          id: number
+          logo_url: string | null
+          phones: Json | null
+          primary_email: string | null
+          social_links: Json | null
+          updated_at: string | null
+          updated_by: string | null
+          whatsapp_url: string | null
+          working_hours: string | null
+        }
+        Insert: {
+          address?: Json | null
+          brand_name?: string
+          footer_text?: string | null
+          id?: number
+          logo_url?: string | null
+          phones?: Json | null
+          primary_email?: string | null
+          social_links?: Json | null
+          updated_at?: string | null
+          updated_by?: string | null
+          whatsapp_url?: string | null
+          working_hours?: string | null
+        }
+        Update: {
+          address?: Json | null
+          brand_name?: string
+          footer_text?: string | null
+          id?: number
+          logo_url?: string | null
+          phones?: Json | null
+          primary_email?: string | null
+          social_links?: Json | null
+          updated_at?: string | null
+          updated_by?: string | null
+          whatsapp_url?: string | null
+          working_hours?: string | null
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          active: boolean | null
+          bio: string | null
+          created_at: string | null
+          id: string
+          linkedin_url: string | null
+          name: string
+          photo_url: string | null
+          role: string
+          sort_order: number | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          bio?: string | null
+          created_at?: string | null
+          id?: string
+          linkedin_url?: string | null
+          name: string
+          photo_url?: string | null
+          role: string
+          sort_order?: number | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          bio?: string | null
+          created_at?: string | null
+          id?: string
+          linkedin_url?: string | null
+          name?: string
+          photo_url?: string | null
+          role?: string
+          sort_order?: number | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -189,9 +420,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_cms_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "cliente_admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -319,7 +551,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "cliente_admin"],
     },
   },
 } as const
