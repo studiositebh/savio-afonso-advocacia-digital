@@ -25,47 +25,62 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { UserPlus, Trash2, Shield, Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Pencil, Trash2, Shield, Loader2, ShieldPlus, ShieldMinus } from "lucide-react";
 import { z } from "zod";
 
-interface AdminUser {
+interface User {
   id: string;
-  user_id: string;
-  role: string;
+  email: string;
+  name: string;
   created_at: string;
-  email?: string;
+  last_sign_in_at: string | null;
+  roles: string[];
 }
 
-const emailSchema = z.string().email("Email inválido").min(1, "Email é obrigatório");
+const emailSchema = z.string().email("Email inválido");
+const nameSchema = z.string().min(1, "Nome é obrigatório");
 
 export default function AdminUsers() {
   const { toast } = useToast();
-  const [admins, setAdmins] = useState<AdminUser[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [editForm, setEditForm] = useState({ name: "", email: "" });
+  const [errors, setErrors] = useState({ name: "", email: "" });
 
   useEffect(() => {
-    fetchAdmins();
+    fetchUsers();
   }, []);
 
-  const fetchAdmins = async () => {
+  const fetchUsers = async () => {
     try {
-      const { data, error } = await supabase
-        .from("user_roles")
-        .select("*")
-        .in("role", ["admin", "cliente_admin"])
-        .order("created_at", { ascending: false });
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
 
-      if (error) throw error;
-      setAdmins(data || []);
+      const response = await supabase.functions.invoke("admin-users", {
+        body: { action: "list" },
+      });
+
+      if (response.error) throw response.error;
+      setUsers(response.data.users || []);
     } catch (error: any) {
       toast({
-        title: "Erro ao carregar administradores",
+        title: "Erro ao carregar usuários",
         description: error.message,
         variant: "destructive",
       });
@@ -74,45 +89,57 @@ export default function AdminUsers() {
     }
   };
 
-  const validateEmail = (email: string) => {
+  const validateForm = () => {
+    const newErrors = { name: "", email: "" };
+    let isValid = true;
+
     try {
-      emailSchema.parse(email);
-      setEmailError("");
-      return true;
-    } catch (error: any) {
-      setEmailError(error.errors[0].message);
-      return false;
+      nameSchema.parse(editForm.name);
+    } catch (e: any) {
+      newErrors.name = e.errors[0].message;
+      isValid = false;
     }
+
+    try {
+      emailSchema.parse(editForm.email);
+    } catch (e: any) {
+      newErrors.email = e.errors[0].message;
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
-  const handleAddAdmin = async () => {
-    if (!validateEmail(newEmail)) return;
+  const openEditDialog = (user: User) => {
+    setSelectedUser(user);
+    setEditForm({ name: user.name, email: user.email });
+    setErrors({ name: "", email: "" });
+    setEditDialogOpen(true);
+  };
+
+  const handleSave = async () => {
+    if (!validateForm() || !selectedUser) return;
 
     setSaving(true);
     try {
-      // First, check if user exists by trying to get their ID
-      // We need to use an edge function or admin API for this
-      // For now, we'll create a placeholder that admin needs to confirm
-      
-      // Check if email is already an admin
-      const { data: existingRoles } = await supabase
-        .from("user_roles")
-        .select("*")
-        .in("role", ["admin", "cliente_admin"]);
-      
-      // Since we can't directly query auth.users, we'll notify the admin
-      // that the user needs to sign up first, then we can add them
-      
-      toast({
-        title: "Instruções",
-        description: `Para adicionar ${newEmail} como administrador: 1) O usuário deve criar uma conta primeiro. 2) Após criar a conta, adicione manualmente o role via Supabase Dashboard.`,
+      const response = await supabase.functions.invoke("admin-users", {
+        body: {
+          action: "update",
+          userId: selectedUser.id,
+          name: editForm.name,
+          email: editForm.email,
+        },
       });
-      
-      setDialogOpen(false);
-      setNewEmail("");
+
+      if (response.error) throw response.error;
+
+      toast({ title: "Usuário atualizado com sucesso!" });
+      setEditDialogOpen(false);
+      fetchUsers();
     } catch (error: any) {
       toast({
-        title: "Erro ao adicionar administrador",
+        title: "Erro ao atualizar usuário",
         description: error.message,
         variant: "destructive",
       });
@@ -121,22 +148,57 @@ export default function AdminUsers() {
     }
   };
 
-  const handleRemoveAdmin = async (roleId: string) => {
-    if (!confirm("Tem certeza que deseja remover este administrador?")) return;
+  const openDeleteDialog = (user: User) => {
+    setSelectedUser(user);
+    setDeleteDialogOpen(true);
+  };
 
+  const handleDelete = async () => {
+    if (!selectedUser) return;
+
+    setSaving(true);
     try {
-      const { error } = await supabase
-        .from("user_roles")
-        .delete()
-        .eq("id", roleId);
+      const response = await supabase.functions.invoke("admin-users", {
+        body: { action: "delete", userId: selectedUser.id },
+      });
 
-      if (error) throw error;
+      if (response.error) throw response.error;
 
-      toast({ title: "Administrador removido com sucesso!" });
-      fetchAdmins();
+      toast({ title: "Usuário excluído com sucesso!" });
+      setDeleteDialogOpen(false);
+      fetchUsers();
     } catch (error: any) {
       toast({
-        title: "Erro ao remover administrador",
+        title: "Erro ao excluir usuário",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const toggleAdminRole = async (user: User) => {
+    const isAdmin = user.roles.includes("admin") || user.roles.includes("cliente_admin");
+    const action = isAdmin ? "removeRole" : "addRole";
+    const role = "cliente_admin";
+
+    try {
+      const response = await supabase.functions.invoke("admin-users", {
+        body: { action, userId: user.id, role },
+      });
+
+      if (response.error) throw response.error;
+
+      toast({ 
+        title: isAdmin 
+          ? "Permissão de administrador removida" 
+          : "Permissão de administrador concedida" 
+      });
+      fetchUsers();
+    } catch (error: any) {
+      toast({
+        title: "Erro ao alterar permissão",
         description: error.message,
         variant: "destructive",
       });
@@ -153,108 +215,105 @@ export default function AdminUsers() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Usuários Administradores</h1>
-          <p className="text-muted-foreground">
-            Gerencie os usuários com acesso ao painel administrativo
-          </p>
-        </div>
-
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <UserPlus className="mr-2 h-4 w-4" />
-              Novo Administrador
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Adicionar Administrador</DialogTitle>
-              <DialogDescription>
-                Informe o email do usuário que receberá acesso administrativo.
-                O usuário precisa ter uma conta criada no sistema.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="usuario@exemplo.com"
-                  value={newEmail}
-                  onChange={(e) => {
-                    setNewEmail(e.target.value);
-                    if (emailError) validateEmail(e.target.value);
-                  }}
-                  onBlur={() => validateEmail(newEmail)}
-                />
-                {emailError && (
-                  <p className="text-sm text-destructive">{emailError}</p>
-                )}
-              </div>
-              <Button
-                onClick={handleAddAdmin}
-                disabled={saving || !newEmail}
-                className="w-full"
-              >
-                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Adicionar
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Usuários</h1>
+        <p className="text-muted-foreground">
+          Gerencie os usuários cadastrados no sistema
+        </p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Administradores Ativos
+            Usuários Cadastrados
           </CardTitle>
           <CardDescription>
-            Lista de usuários com permissões administrativas no sistema
+            Lista completa de usuários com suas permissões
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {admins.length === 0 ? (
+          {users.length === 0 ? (
             <p className="text-center text-muted-foreground py-8">
-              Nenhum administrador encontrado
+              Nenhum usuário encontrado
             </p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>ID do Usuário</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Criado em</TableHead>
-                  <TableHead className="w-[100px]">Ações</TableHead>
+                  <TableHead>Nome</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Permissões</TableHead>
+                  <TableHead>Último Acesso</TableHead>
+                  <TableHead className="w-[150px]">Ações</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {admins.map((admin) => (
-                  <TableRow key={admin.id}>
-                    <TableCell className="font-mono text-sm">
-                      {admin.user_id}
+                {users.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                      {user.name || <span className="text-muted-foreground italic">Sem nome</span>}
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {user.roles.length === 0 ? (
+                          <Badge variant="secondary">usuário</Badge>
+                        ) : (
+                          user.roles.map((role) => (
+                            <Badge 
+                              key={role} 
+                              variant={role === "admin" || role === "cliente_admin" ? "default" : "secondary"}
+                            >
+                              {role}
+                            </Badge>
+                          ))
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-                        {admin.role}
-                      </span>
+                      {user.last_sign_in_at
+                        ? new Date(user.last_sign_in_at).toLocaleDateString("pt-BR", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : <span className="text-muted-foreground">Nunca</span>}
                     </TableCell>
                     <TableCell>
-                      {new Date(admin.created_at).toLocaleDateString("pt-BR")}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleRemoveAdmin(admin.id)}
-                        className="text-destructive hover:text-destructive"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => openEditDialog(user)}
+                          title="Editar"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => toggleAdminRole(user)}
+                          title={user.roles.includes("admin") || user.roles.includes("cliente_admin") 
+                            ? "Remover admin" 
+                            : "Tornar admin"}
+                        >
+                          {user.roles.includes("admin") || user.roles.includes("cliente_admin") 
+                            ? <ShieldMinus className="h-4 w-4 text-orange-500" />
+                            : <ShieldPlus className="h-4 w-4 text-green-500" />}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => openDeleteDialog(user)}
+                          className="text-destructive hover:text-destructive"
+                          title="Excluir"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -264,20 +323,76 @@ export default function AdminUsers() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Como adicionar um novo administrador</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>1. O usuário deve primeiro criar uma conta no sistema através da página de login.</p>
-          <p>2. Após o usuário criar a conta, acesse o Supabase Dashboard.</p>
-          <p>3. Na tabela <code className="bg-muted px-1 rounded">user_roles</code>, adicione uma nova linha com:</p>
-          <ul className="list-disc list-inside ml-4 space-y-1">
-            <li><code className="bg-muted px-1 rounded">user_id</code>: ID do usuário (encontrado em Authentication &gt; Users)</li>
-            <li><code className="bg-muted px-1 rounded">role</code>: <code className="bg-muted px-1 rounded">cliente_admin</code></li>
-          </ul>
-        </CardContent>
-      </Card>
+      {/* Edit Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Editar Usuário</DialogTitle>
+            <DialogDescription>
+              Altere os dados do usuário abaixo
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Nome</Label>
+              <Input
+                id="name"
+                value={editForm.name}
+                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                placeholder="Nome do usuário"
+              />
+              {errors.name && (
+                <p className="text-sm text-destructive">{errors.name}</p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={editForm.email}
+                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                placeholder="email@exemplo.com"
+              />
+              {errors.email && (
+                <p className="text-sm text-destructive">{errors.email}</p>
+              )}
+            </div>
+            <div className="flex justify-end gap-2 pt-4">
+              <Button variant="outline" onClick={() => setEditDialogOpen(false)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleSave} disabled={saving}>
+                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Salvar
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir Usuário</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja excluir o usuário <strong>{selectedUser?.email}</strong>?
+              Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
