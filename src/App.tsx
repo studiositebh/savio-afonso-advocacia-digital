@@ -22,6 +22,12 @@ import Login from "./pages/admin/Login";
 import Dashboard from "./pages/admin/Dashboard";
 import Posts from "./pages/admin/Posts";
 import PostForm from "./pages/admin/PostForm";
+import Contents from "./pages/admin/Contents";
+import PracticeAreas from "./pages/admin/PracticeAreas";
+import Team from "./pages/admin/Team";
+import Leads from "./pages/admin/Leads";
+import Settings from "./pages/admin/Settings";
+import SEO from "./pages/admin/SEO";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +68,12 @@ const App = () => (
                 <AdminLayout>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
+                    <Route path="/conteudos" element={<Contents />} />
+                    <Route path="/areas-de-atuacao" element={<PracticeAreas />} />
+                    <Route path="/equipe" element={<Team />} />
+                    <Route path="/leads" element={<Leads />} />
+                    <Route path="/configuracoes" element={<Settings />} />
+                    <Route path="/seo" element={<SEO />} />
                     <Route path="/posts" element={<Posts />} />
                     <Route path="/posts/new" element={<PostForm />} />
                     <Route path="/posts/:id" element={<PostForm />} />

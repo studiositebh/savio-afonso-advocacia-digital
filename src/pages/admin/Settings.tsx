@@ -97,12 +97,12 @@ export default function Settings() {
           brand_name: settings.brand_name,
           logo_url: settings.logo_url || null,
           primary_email: settings.primary_email || null,
-          phones: settings.phones as unknown as Record<string, unknown>[],
-          address: settings.address as unknown as Record<string, unknown>,
+          phones: settings.phones as any,
+          address: settings.address as any,
           whatsapp_url: settings.whatsapp_url || null,
           working_hours: settings.working_hours || null,
           footer_text: settings.footer_text || null,
-          social_links: settings.social_links as unknown as Record<string, unknown>,
+          social_links: settings.social_links as any,
           updated_by: user?.id
         })
         .eq('id', 1);

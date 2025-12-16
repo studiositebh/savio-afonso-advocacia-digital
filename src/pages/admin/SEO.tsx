@@ -50,18 +50,18 @@ export default function SEO() {
       
       if (error) throw error;
       
-      setPages((data || []) as PageContent[]);
+      setPages((data || []) as unknown as PageContent[]);
       
       // Initialize SEO data for each page
       const initialSeoData: Record<string, SEOData> = {};
       data?.forEach(page => {
-        const seo = (page.seo as unknown as SEOData) || {};
+        const seo = page.seo as Record<string, unknown> | null;
         initialSeoData[page.page_key] = {
-          meta_title: seo.meta_title || '',
-          meta_description: seo.meta_description || '',
-          og_image: seo.og_image || '',
-          canonical_url: seo.canonical_url || '',
-          noindex: seo.noindex || false
+          meta_title: (seo?.meta_title as string) || '',
+          meta_description: (seo?.meta_description as string) || '',
+          og_image: (seo?.og_image as string) || '',
+          canonical_url: (seo?.canonical_url as string) || '',
+          noindex: (seo?.noindex as boolean) || false
         };
       });
       setSeoData(initialSeoData);
@@ -82,7 +82,7 @@ export default function SEO() {
       const { error } = await supabase
         .from('page_contents')
         .update({
-          seo: seoData[pageKey] as unknown as Record<string, unknown>,
+          seo: seoData[pageKey] as any,
           updated_by: user?.id
         })
         .eq('id', page.id);
